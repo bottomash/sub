@@ -1,4 +1,3 @@
-# docker-image.yml
 name: Publish Docker image   # workflow名称，可以在Github项目主页的【Actions】中看到所有的workflow
 
 on:   # 配置触发workflow的事件
