@@ -5,11 +5,21 @@ PROCESS-NAME,qbittorrent-nox
 
 DOMAIN-KEYWORD,xhs
 DOMAIN-KEYWORD,douyin
+DOMAIN-KEYWORD,steamstore
+DOMAIN-KEYWORD,steambroadcast
+DOMAIN-KEYWORD,steamuserimages
 
 IP-CIDR,9.9.9.9/8
 IP-CIDR,10.0.0.0/8
 IP-CIDR,100.0.0.0/8
+IP-CIDR,127.0.0.0/8
+IP-CIDR,224.0.0.0/24
+IP-CIDR,172.16.0.0/12
+IP-CIDR,100.64.0.0/10
+IP-CIDR,192.168.0.0/16
 
+DOMAIN-SUFFIX,local
+DOMAIN-SUFFIX,localhost
 DOMAIN-SUFFIX,boc.cn
 DOMAIN-SUFFIX,jd.com
 DOMAIN-SUFFIX,qq.com
@@ -106,6 +116,5 @@ DOMAIN-SUFFIX,steampowered.com.8686c.com
 DOMAIN-SUFFIX,steamstatic.com.8686c.com
 ## >> webra Download CDN
 DOMAIN-SUFFIX,steam.cdn.webra.ru
-DOMAIN-KEYWORD,steamstore
-DOMAIN-KEYWORD,steamuserimages
-DOMAIN-KEYWORD,steambroadcast
+
+GEOIP,cn
