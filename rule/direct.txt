@@ -5,6 +5,8 @@ PROCESS-NAME,qbittorrent-nox
 
 DOMAIN-KEYWORD,xhs
 DOMAIN-KEYWORD,douyin
+DOMAIN-KEYWORD,scopus
+DOMAIN-KEYWORD,elsevier
 DOMAIN-KEYWORD,steamstore
 DOMAIN-KEYWORD,steambroadcast
 DOMAIN-KEYWORD,steamuserimages
@@ -116,5 +118,3 @@ DOMAIN-SUFFIX,steampowered.com.8686c.com
 DOMAIN-SUFFIX,steamstatic.com.8686c.com
 ## >> webra Download CDN
 DOMAIN-SUFFIX,steam.cdn.webra.ru
-
-GEOIP,cn
