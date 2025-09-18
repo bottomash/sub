@@ -7,6 +7,7 @@ DOMAIN-KEYWORD,xhs
 DOMAIN-KEYWORD,douyin
 DOMAIN-KEYWORD,scopus
 DOMAIN-KEYWORD,elsevier
+DOMAIN-KEYWORD,bilibili
 DOMAIN-KEYWORD,steamstore
 DOMAIN-KEYWORD,steambroadcast
 DOMAIN-KEYWORD,steamuserimages
@@ -35,6 +36,7 @@ DOMAIN-SUFFIX,alipay.com
 DOMAIN-SUFFIX,alicdn.com
 DOMAIN-SUFFIX,melogin.cn
 DOMAIN-SUFFIX,scopus.com
+DOMAIN-SUFFIX,bilibili.com
 DOMAIN-SUFFIX,biliapi.com
 DOMAIN-SUFFIX,maimemo.com
 DOMAIN-SUFFIX,elsevier.com
