@@ -1,3 +1,0 @@
-DOMAIN-SUFFIX,szbdyd.com
-DOMAIN-SUFFIX,p2p.huya.com
-DOMAIN-SUFFIX,mcdn.bilivideo.cn
