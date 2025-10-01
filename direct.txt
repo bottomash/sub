@@ -37,6 +37,7 @@ DOMAIN-SUFFIX,alicdn.com
 DOMAIN-SUFFIX,melogin.cn
 DOMAIN-SUFFIX,scopus.com
 DOMAIN-SUFFIX,bilibili.com
+
 DOMAIN-SUFFIX,biliapi.com
 DOMAIN-SUFFIX,maimemo.com
 DOMAIN-SUFFIX,elsevier.com
@@ -46,6 +47,8 @@ DOMAIN-SUFFIX,aliyundrive.net
 DOMAIN-SUFFIX,mihomo.zhai.dev
 DOMAIN-SUFFIX,yacd.haishan.me
 DOMAIN-SUFFIX,frodo.douban.com
+DOMAIN-SUFFIX,steamcontent.com
+DOMAIN-SUFFIX,steampowered.com
 DOMAIN-SUFFIX,sciencedirect.com
 DOMAIN-SUFFIX,yacd.metacubex.one
 DOMAIN-SUFFIX,gdutdays.gdutelc.com
