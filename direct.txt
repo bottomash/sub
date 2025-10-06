@@ -36,10 +36,9 @@ DOMAIN-SUFFIX,alipay.com
 DOMAIN-SUFFIX,alicdn.com
 DOMAIN-SUFFIX,melogin.cn
 DOMAIN-SUFFIX,scopus.com
-DOMAIN-SUFFIX,bilibili.com
-
 DOMAIN-SUFFIX,biliapi.com
 DOMAIN-SUFFIX,maimemo.com
+DOMAIN-SUFFIX,bilibili.com
 DOMAIN-SUFFIX,elsevier.com
 DOMAIN-SUFFIX,tailscale.com
 DOMAIN-SUFFIX,t.audiences.me
