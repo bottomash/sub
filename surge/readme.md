@@ -2,5 +2,4 @@
 
 ```
 https://raw.zhai.dev/bottomash/sub/surge/G302.sgmoudle
-
 ```
