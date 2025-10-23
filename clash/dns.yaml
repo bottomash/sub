@@ -1,0 +1,14 @@
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*.lan'
+    - msftncsi.com    
+    - msftconnecttest.com    
+    - localhost.ptlogin2.qq.com
+    - 131.107.255.255/32
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
