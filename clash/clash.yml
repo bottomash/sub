@@ -20,3 +20,29 @@ dns:
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
+rule-providers:
+  ai:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://ruleset.skk.moe/List/non_ip/ai.conf
+  direct:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://raw.zhai.dev/bottomash/sub/latest/direct.txt
+  onedrive:
+    type: http
+    format: text
+    interval: 86400
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/onedrive.txt
+rules:
+  - RULE-SET,ai,AI
+  - RULE-SET,onedrive,OneDrive
+  - RULE-SET,direct,DIRECT 
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Auto
