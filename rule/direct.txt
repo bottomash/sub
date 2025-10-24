@@ -1,19 +1,23 @@
 #schloar
 DOMAIN-KEYWORD,ieee
 DOMAIN-KEYWORD,scopus
+DOMAIN-KEYWORD,science
 DOMAIN-KEYWORD,springer
 DOMAIN-KEYWORD,elsevier
 DOMAIN-KEYWORD,clarivate
-DOMAIN-KEYWORD,webofscience
 DOMAIN-KEYWORD,sciencedirect
 
+DOMAIN-SUFFIX,doi.org
 DOMAIN-SUFFIX,ieee.org
 DOMAIN-SUFFIX,cnki.net
 DOMAIN-SUFFIX,scopus.com
+DOMAIN-SUFFIX,endnote.com
+DOMAIN-SUFFIX,zdassets.com
+DOMAIN-SUFFIX,onetrust.com
 DOMAIN-SUFFIX,elsevier.com
 DOMAIN-SUFFIX,webofscience.com
-DOMAIN-SUFFIX,webofknowledge.com
 DOMAIN-SUFFIX,sciencedirect.com
+DOMAIN-SUFFIX,webofknowledge.com
 DOMAIN-SUFFIX,gdutdays.gdutelc.com
 
 PROCESS-NAME,QQ.exe
