@@ -1,5 +1,4 @@
-GEOIP,google
-GEOIP,telegram
+PROCESS-NAME,Telegram.exe
 
 DOMAIN-KEYWORD,fbcdn
 DOMAIN-KEYWORD,github
@@ -42,3 +41,6 @@ DOMAIN-SUFFIX,onedrive.live.com
 DOMAIN-SUFFIX,dl.tailscale.com
 DOMAIN-SUFFIX,podcasts.apple.com
 DOMAIN-SUFFIX,steamcommunity.com
+
+GEOIP,google
+GEOIP,telegram

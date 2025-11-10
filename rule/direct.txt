@@ -21,8 +21,10 @@ DOMAIN-SUFFIX,webofknowledge.com
 DOMAIN-SUFFIX,gdutdays.gdutelc.com
 
 PROCESS-NAME,QQ.exe
+PROCESS-NAME,nact.exe
 PROCESS-NAME,steam.exe
 PROCESS-NAME,tailscale.exe
+PROCESS-NAME,cloudflared.exe
 PROCESS-NAME,qbittorrent-nox
 
 DOMAIN-KEYWORD,xhs
