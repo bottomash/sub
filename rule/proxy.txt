@@ -18,6 +18,7 @@ DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bing.net
 DOMAIN-SUFFIX,dmhy.org
 DOMAIN-SUFFIX,trakt.tv
+DOMAIN-SUFFIX,docker.io
 DOMAIN-SUFFIX,adobe.com
 DOMAIN-SUFFIX,pixiv.net
 DOMAIN-SUFFIX,pximg.net
@@ -41,6 +42,3 @@ DOMAIN-SUFFIX,onedrive.live.com
 DOMAIN-SUFFIX,dl.tailscale.com
 DOMAIN-SUFFIX,podcasts.apple.com
 DOMAIN-SUFFIX,steamcommunity.com
-
-GEOIP,google
-GEOIP,telegram
