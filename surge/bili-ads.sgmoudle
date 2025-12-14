@@ -1,0 +1,34 @@
+#!name=Bilibili iPad 净化 (修复版)
+#!desc=最强双脚本整合。去除开屏/信息流/评论区广告，移除底部“会员购”，仅保留首页/动态/我的。
+#!system=ios
+
+[MITM]
+hostname = %APPEND% app.bilibili.com, grpc.biliapi.net
+
+[Rule]
+# 拦截防盗链与追踪
+DOMAIN, httpdns.biliapi.net, REJECT
+DOMAIN-SUFFIX, go-mpulse.net, REJECT
+DOMAIN-SUFFIX, i-mobile.jp, REJECT
+
+[Script]
+# --- JSON 类型请求 (由 app2smile 处理) ---
+# 1. 底部导航栏 (精简为: 首页/动态/我的)
+Bili_Tab = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab, requires-body=1, max-size=-1, binary-body-mode=0, script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-json.js
+
+# 2. 开屏广告与首页信息流
+Bili_JSON = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index), requires-body=1, max-size=-1, binary-body-mode=0, script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-json.js
+
+
+# --- Protobuf 二进制请求 (由 Maasea 处理) ---
+# 3. 视频详情页 (去除视频下方广告卡片)
+Bili_View = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view|viewunite)\.v1\.View\/(View|ViewProgress)$, requires-body=1, binary-body-mode=1, max-size=-1, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Bilibili/bilibili.helper.js
+
+# 4. 评论区 (去除置顶广告)
+Bili_Reply = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList, requires-body=1, binary-body-mode=1, max-size=-1, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Bilibili/bilibili.helper.js
+
+# 5. 搜索结果 (去除推广内容)
+Bili_Search = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$, requires-body=1, binary-body-mode=1, max-size=-1, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Bilibili/bilibili.helper.js
+
+# 6. 动态 (去除推荐话题/赞助商)
+Bili_Dynamic = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$, requires-body=1, binary-body-mode=1, max-size=-1, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Bilibili/bilibili.helper.js
