@@ -20,3 +20,17 @@ dns:
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
+proxy-providers:
+  unicorn:
+    type: http
+    # 使用 {{ request.url }} 自动获取你调用接口时传入的 url 参数
+    url: "https://sub.zhai.dev/sub?target=clash&list=true&url={{request.url}}"
+    interval: 3600
+    path: ./unicorn.yaml
+    health-check:
+      enable: true
+      interval: 600
+      url: http://www.gstatic.com/generate_204
+proxies: []
+proxy-groups: []
+rules: []
