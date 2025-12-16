@@ -20,17 +20,37 @@ dns:
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
-proxy-providers:
-  unicorn:
-    type: http
-    # 使用 {{ request.url }} 自动获取你调用接口时传入的 url 参数
-    url: "https://sub.zhai.dev/sub?target=clash&list=true&url={{request.url}}"
-    interval: 3600
-    path: ./unicorn.yaml
-    health-check:
-      enable: true
-      interval: 600
-      url: http://www.gstatic.com/generate_204
 proxies: []
 proxy-groups: []
-rules: []
+rule-providers:
+  ai:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://ruleset.skk.moe/List/non_ip/ai.conf
+  direct:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/direct.txt
+  onedrive:
+    type: http
+    format: text
+    interval: 86400
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/onedrive.txt
+  proxy:
+    type: http
+    format: text
+    interval: 86400
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/proxy.txt
+rules:
+  - RULE-SET,ai,AI
+  - RULE-SET,onedrive,OneDrive
+  - RULE-SET,direct,DIRECT 
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Auto
