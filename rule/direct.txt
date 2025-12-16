@@ -54,10 +54,7 @@ DOMAIN-SUFFIX,115cdn.net
 DOMAIN-SUFFIX,alipay.com
 DOMAIN-SUFFIX,alicdn.com
 DOMAIN-SUFFIX,melogin.cn
-DOMAIN-SUFFIX,biliapi.com
 DOMAIN-SUFFIX,maimemo.com
-DOMAIN-SUFFIX,bilibili.com
-DOMAIN-SUFFIX,bilivideo.com
 DOMAIN-SUFFIX,tailscale.com
 DOMAIN-SUFFIX,t.audiences.me
 DOMAIN-SUFFIX,aliyundrive.net
