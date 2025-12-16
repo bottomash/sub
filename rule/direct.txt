@@ -58,6 +58,13 @@ DOMAIN-SUFFIX,maimemo.com
 DOMAIN-SUFFIX,tailscale.com
 DOMAIN-SUFFIX,t.audiences.me
 DOMAIN-SUFFIX,aliyundrive.net
+DOMAIN-SUFFIX,qb.zhai.dev
+DOMAIN-SUFFIX,cd2.zhai.dev
+DOMAIN-SUFFIX,raw.zhai.dev
+DOMAIN-SUFFIX,as.zhai.dev
+DOMAIN-SUFFIX,mp2.zhai.dev
+DOMAIN-SUFFIX,cc.zhai.dev
+DOMAIN-SUFFIX,302.zhai.dev
 DOMAIN-SUFFIX,mihomo.zhai.dev
 DOMAIN-SUFFIX,yacd.haishan.me
 DOMAIN-SUFFIX,frodo.douban.com
