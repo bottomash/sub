@@ -49,6 +49,7 @@ rule-providers:
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/proxy.txt
 rules:
   - RULE-SET,ai,AI
+  - RULE-SET,proxy,Auto
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT 
   - GEOIP,LAN,DIRECT
