@@ -47,8 +47,15 @@ rule-providers:
     interval: 86400
     behavior: classical
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/proxy.txt
+  apple:
+    type: http
+    format: text
+    interval: 86400
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/apple.txt
 rules:
   - RULE-SET,ai,AI
+  - RULE-SET,apple,Apple
   - RULE-SET,proxy,Auto
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT 
