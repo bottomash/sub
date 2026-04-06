@@ -22,18 +22,6 @@ dns:
     - 119.29.29.29
 proxies: []
 rule-providers:
-  ai:
-    type: http
-    format: text
-    behavior: classical
-    interval: 86400
-    url: https://ruleset.skk.moe/List/non_ip/ai.conf
-  apple:
-    type: http
-    format: text
-    behavior: classical
-    interval: 86400
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/apple.txt
   direct:
     type: http
     format: text
@@ -47,8 +35,6 @@ rule-providers:
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/onedrive.txt
 rules:
-  - RULE-SET,ai,AI
-  - RULE-SET,apple,Apple
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT
   - GEOIP,LAN,DIRECT
