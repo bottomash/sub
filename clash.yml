@@ -25,25 +25,26 @@ rule-providers:
   proxy:
     type: http
     format: text
-    behavior: classical
+    behavior: domain
     interval: 86400
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/proxy.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/proxy.txt
   direct:
     type: http
     format: text
-    behavior: classical
+    behavior: domain
     interval: 86400
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/direct.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/direct.txt
   onedrive:
     type: http
     format: text
-    behavior: classical
+    behavior: domain
     interval: 86400
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/onedrive.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/onedrive.txt
+
 rules:
-  - RULE-SET,proxy,Auto
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT
+  - RULE-SET,proxy,Auto
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,Auto
