@@ -21,6 +21,28 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
 proxies: []
+proxy-groups:
+  - name: GLOBAL
+    type: select
+    proxies:
+      - DIRECT      
+      - Auto
+    icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Global.png
+  - name: OneDrive
+    type: select
+    proxies:
+      - DIRECT
+      - Auto
+    icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/OneDrive.png
+  - name: Auto
+    type: fallback
+    filter: (日本|香港|新加坡|美国|韩国)(?!.*3X)(?!.*2X)
+    interval: 300
+    url: https://www.gstatic.com/generate_204
+    use:
+      - unicorn
+    icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png
+
 rule-providers:
   proxy:
     type: http
