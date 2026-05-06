@@ -6,4 +6,4 @@ DOMAIN-SUFFIX,sharepoint.com
 DOMAIN-SUFFIX,storage.live.com
 DOMAIN-SUFFIX,skydrive.wns.windows.com
 DOMAIN-SUFFIX,login.microsoftonline.com
-DOMAIN-SUFFIX,my.microsoftpersonalcontent.com
+DOMAIN-SUFFIX,microsoftpersonalcontent.com
