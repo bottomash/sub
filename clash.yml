@@ -39,16 +39,12 @@ proxy-groups:
     filter: (日本|香港|新加坡|美国|韩国)(?!.*(3X|2X))
     interval: 300
     url: https://www.gstatic.com/generate_204
-    use:
-      - unicorn
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png
   - name: AI
     type: fallback
     filter: (美国|韩国|日本)(?!.*(3X|2X))
     interval: 300
     url: https://www.gstatic.com/generate_204
-    use:
-      - unicorn
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 rule-providers:
   proxy:

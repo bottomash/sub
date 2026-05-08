@@ -1,2 +1,4 @@
 *.exe
 cache
+.claude/
+CLAUDE.md

@@ -10,7 +10,7 @@ DOMAIN-KEYWORD,youtube
 DOMAIN-KEYWORD,facebook
 DOMAIN-KEYWORD,telegram
 DOMAIN-KEYWORD,1password
-DOMAIN-KEYWORD,instrgram
+DOMAIN-KEYWORD,instagram
 
 DOMAIN-SUFFIX,nyaa.si
 DOMAIN-SUFFIX,loli.net
