@@ -36,34 +36,47 @@ proxy-groups:
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/OneDrive.png
   - name: Auto
     type: fallback
-    filter: (日本|香港|新加坡|美国|韩国)(?!.*3X)(?!.*2X)
+    filter: (日本|香港|新加坡|美国|韩国)(?!.*(3X|2X))
     interval: 300
     url: https://www.gstatic.com/generate_204
     use:
       - unicorn
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png
-
+  - name: AI
+    type: fallback
+    filter: (美国|韩国|日本)(?!.*(3X|2X))
+    interval: 300
+    url: https://www.gstatic.com/generate_204
+    use:
+      - unicorn
+    icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 rule-providers:
   proxy:
     type: http
     format: text
-    behavior: domain
+    behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/proxy.txt
   direct:
     type: http
     format: text
-    behavior: domain
+    behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/direct.txt
   onedrive:
     type: http
     format: text
-    behavior: domain
+    behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/onedrive.txt
-
+  ai:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://ruleset.skk.moe/List/non_ip/ai.conf
 rules:
+  - RULE-SET,ai,AI
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT
   - RULE-SET,proxy,Auto

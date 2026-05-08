@@ -1,6 +1,7 @@
 PROCESS-NAME,QQ.exe
 PROCESS-NAME,nact.exe
 PROCESS-NAME,steam.exe
+PROCESS-NAME,OneDrive.exe
 PROCESS-NAME,tailscale.exe
 PROCESS-NAME,qbittorrent-nox
 
