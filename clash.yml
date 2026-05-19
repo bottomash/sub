@@ -20,3 +20,36 @@ dns:
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
+rule-providers:
+  ai:
+    type: http
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/ai.txt
+    path: ./ruleset/ai.yaml
+    interval: 86400
+  proxy:
+    type: http
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/proxy.txt
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+  direct:
+    type: http
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/direct.txt
+    path: ./ruleset/direct.yaml
+    interval: 86400
+  onedrive:
+    type: http
+    behavior: classical
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/onedrive.txt
+    path: ./ruleset/onedrive.yaml
+    interval: 86400
+rules:
+  - RULE-SET,ai,AI
+  - RULE-SET,proxy,Auto
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,onedrive,OneDrive
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Auto
