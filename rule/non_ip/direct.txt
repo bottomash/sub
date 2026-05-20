@@ -4,6 +4,7 @@ PROCESS-NAME,steam.exe
 PROCESS-NAME,OneDrive.exe
 PROCESS-NAME,tailscale.exe
 PROCESS-NAME,qbittorrent-nox
+PROCESS-NAME,OneDrive.Sync.Service.exe
 
 DOMAIN-KEYWORD,ieee
 DOMAIN-KEYWORD,scopus
