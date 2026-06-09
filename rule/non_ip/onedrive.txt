@@ -1,4 +1,5 @@
 PROCESS-NAME,OneDrive.exe
+PROCESS-NAME,OneDrive.Sync.Service.exe
 
 DOMAIN-SUFFIX,1drv.com
 DOMAIN-SUFFIX,onedrive.com

@@ -1,10 +1,8 @@
 PROCESS-NAME,QQ.exe
 PROCESS-NAME,nact.exe
 PROCESS-NAME,steam.exe
-PROCESS-NAME,OneDrive.exe
 PROCESS-NAME,tailscale.exe
 PROCESS-NAME,qbittorrent-nox
-PROCESS-NAME,OneDrive.Sync.Service.exe
 
 DOMAIN-KEYWORD,ieee
 DOMAIN-KEYWORD,scopus
@@ -52,7 +50,6 @@ DOMAIN-SUFFIX,aliyundrive.net
 DOMAIN-SUFFIX,yacd.haishan.me
 DOMAIN-SUFFIX,frodo.douban.com
 DOMAIN-SUFFIX,steamcontent.com
-DOMAIN-SUFFIX,steampowered.com
 DOMAIN-SUFFIX,yacd.metacubex.one
 DOMAIN-SUFFIX,cn.archive.ubuntu.com
 DOMAIN-SUFFIX,tracker.cinefiles.info
