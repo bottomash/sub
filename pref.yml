@@ -1,0 +1,44 @@
+common:
+  api_mode: false
+  clash_rule_base: clash.yml
+  exclude_remarks: ["(2|3|5|10|20)[xX]|3X|ˣ³|ˣ⁵|失联"]
+
+node_pref:
+  sort_flag: false
+  clash_use_new_field_name: true
+  clash_proxies_style: flow
+  rename_node:
+  - {match: '(\d)x', replace: '$1X'}
+  - {match: '(\S{2})(\d{2}) (\|) (\w{2})', replace: ' $1 $2'}
+  - {match: '(丨)(\d{1,2}X) (\w{2})', replace: ' $2'}
+  - {match: '(ˣ¹)', replace: ' 1X'}
+  - {match: '(ˣ²)', replace: ' 2X'}
+  - {match: '(ˣ³)', replace: ' 3X'}
+  - {match: '(ˣ⁴)', replace: ' 4X'}
+  - {match: '(ˣ⁵)', replace: ' 5X'}
+  - {match: '(\p{Han}{2,5})(丨)', replace: ' $1$2'}
+
+aliases:
+  - {uri: /clash, target: "/sub?target=clash&new_name=true"}
+
+rulesets:
+  enabled: true
+  overwrite_original_rules: true
+  rulesets:
+  - {rule: "RULE-SET,ai", group: AI}
+  - {rule: "RULE-SET,proxy", group: Auto}
+  - {rule: "RULE-SET,direct", group: DIRECT}
+  - {rule: "RULE-SET,onedrive", group: OneDrive}
+  - {rule: "GEOIP,LAN", group: DIRECT}
+  - {rule: "GEOIP,CN", group: DIRECT}
+  - {rule: "MATCH", group: Auto}
+
+proxy_groups:
+  custom_proxy_group:
+  - {name: GLOBAL, type: select, rule: ["[]DIRECT", "[]Auto"]}
+  - {name: OneDrive, type: select, rule: ["[]DIRECT", "[]Auto"]}
+  - {name: Auto, type: fallback, rule: ["(日本|香港|新加坡|美国|韩国)(?!.*(3X|2X))"], url: http://www.gstatic.com/generate_204, interval: 300}
+  - {name: AI, type: fallback, rule: ["(美国|韩国|日本|新加坡)(?!.*(3X|2X))"], url: http://www.gstatic.com/generate_204, interval: 300}
+
+advanced:
+  enable_cache: false

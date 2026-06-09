@@ -45,11 +45,3 @@ rule-providers:
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/onedrive.txt
     path: ./ruleset/onedrive.yaml
     interval: 86400
-rules:
-  - RULE-SET,ai,AI
-  - RULE-SET,proxy,Auto
-  - RULE-SET,direct,DIRECT
-  - RULE-SET,onedrive,OneDrive
-  - GEOIP,LAN,DIRECT
-  - GEOIP,CN,DIRECT
-  - MATCH,Auto
