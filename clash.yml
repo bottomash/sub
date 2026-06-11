@@ -24,24 +24,24 @@ rule-providers:
   ai:
     type: http
     behavior: classical
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/ai.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/ai.txt
     path: ./ruleset/ai.yaml
     interval: 86400
   proxy:
     type: http
     behavior: classical
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/proxy.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/proxy.txt
     path: ./ruleset/proxy.yaml
     interval: 86400
   direct:
     type: http
     behavior: classical
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/direct.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/direct.txt
     path: ./ruleset/direct.yaml
     interval: 86400
   onedrive:
     type: http
     behavior: classical
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/non_ip/onedrive.txt
+    url: https://raw.zhai.dev/bottomash/sub/latest/onedrive.txt
     path: ./ruleset/onedrive.yaml
     interval: 86400

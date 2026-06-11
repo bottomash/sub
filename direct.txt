@@ -20,7 +20,6 @@ DOMAIN-KEYWORD,meituan
 DOMAIN-KEYWORD,dianping
 
 DOMAIN-SUFFIX,doi.org
-DOMAIN-SUFFIX,ieee.org
 DOMAIN-SUFFIX,cnki.net
 DOMAIN-SUFFIX,scopus.com
 DOMAIN-SUFFIX,endnote.com
@@ -31,7 +30,6 @@ DOMAIN-SUFFIX,webofscience.com
 DOMAIN-SUFFIX,sciencedirect.com
 DOMAIN-SUFFIX,webofknowledge.com
 DOMAIN-SUFFIX,gdutdays.gdutelc.com
-DOMAIN-SUFFIX,local
 DOMAIN-SUFFIX,localhost
 DOMAIN-SUFFIX,boc.cn
 DOMAIN-SUFFIX,jd.com

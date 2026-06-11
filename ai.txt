@@ -1,12 +1,7 @@
 PROCESS-NAME,Claude Setup.exe
 
-DOMAIN-SUFFIX,claude.ai
-
-
-# Homepage: https://ruleset.skk.moe
 DOMAIN-SUFFIX,generativeai.google
 DOMAIN,antigravity.google
-DOMAIN-SUFFIX,notebooklm.google
 DOMAIN-SUFFIX,deepmind.google
 DOMAIN-SUFFIX,gemini.google
 DOMAIN,antigravity-unleash.goog
@@ -28,7 +23,6 @@ DOMAIN-SUFFIX,notebooklm.google.com
 DOMAIN-SUFFIX,makersuite.google.com
 DOMAIN,alkalicore-pa.clients6.google.com
 DOMAIN-SUFFIX,aistudio.google.com
-DOMAIN-SUFFIX,gemini.google.com
 DOMAIN,jules.google.com
 DOMAIN-SUFFIX,bard.google.com
 DOMAIN,api.github.com
