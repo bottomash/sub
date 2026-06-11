@@ -56,3 +56,5 @@ DOMAIN-SUFFIX,qianjiapp.com
 DOMAIN-SUFFIX,10010.com
 DOMAIN-SUFFIX,hellobike.com
 DOMAIN-SUFFIX,gdut.edu.cn
+IP-CIDR,9.9.9.9/32
+IP-CIDR,10.0.3.2/32
