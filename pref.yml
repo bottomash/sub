@@ -8,6 +8,7 @@ node_pref:
   clash_use_new_field_name: true
   clash_proxies_style: flow
   rename_node:
+  - {match: '^美国(?:[\s\-－—_]+|(?=.+))', replace: ''}
   - {match: '(\d)x', replace: '$1X'}
   - {match: '(\S{2})(\d{2}) (\|) (\w{2})', replace: ' $1 $2'}
   - {match: '(丨)(\d{1,2}X) (\w{2})', replace: ' $2'}
