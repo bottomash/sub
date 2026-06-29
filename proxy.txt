@@ -27,7 +27,7 @@ DOMAIN-SUFFIX,infuse.im
 DOMAIN-SUFFIX,typora.io
 DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,ytimg.com
-DOMAIN-SUFFIX,twing.com
+DOMAIN-SUFFIX,twimg.com
 DOMAIN-SUFFIX,vercel.app
 DOMAIN-SUFFIX,tiktok.com
 DOMAIN-SUFFIX,audiences.me
