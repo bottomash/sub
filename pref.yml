@@ -38,8 +38,8 @@ proxy_groups:
   custom_proxy_group:
   - {name: GLOBAL, type: select, rule: ["[]DIRECT", "[]Auto"]}
   - {name: OneDrive, type: select, rule: ["[]DIRECT", "[]Auto"]}
-  - {name: Auto, type: fallback, rule: ["(日本|香港|新加坡|美国|韩国)(?!.*(3X|2X))"], url: http://www.gstatic.com/generate_204, interval: 300}
-  - {name: AI, type: fallback, rule: ["(美国|韩国|日本|新加坡)(?!.*(3X|2X))"], url: http://www.gstatic.com/generate_204, interval: 300}
+  - {name: Auto, type: fallback, rule: ["(日本|香港|新加坡|美国|韩国)(?!.*(3X))"], url: http://www.gstatic.com/generate_204, interval: 300}
+  - {name: AI, type: fallback, rule: ["(美国|韩国|日本|新加坡)(?!.*(3X))"], url: http://www.gstatic.com/generate_204, interval: 300}
 
 advanced:
   enable_cache: false
