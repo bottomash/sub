@@ -23,10 +23,10 @@ function main(config) {
     config = {};
   }
 
-  // 节点处理：保留机场 A 的顶层节点，只修改有效节点的名称。
-  const airportAProxies = Array.isArray(config.proxies) ? config.proxies : [];
+  // 节点处理：保留全部顶层节点，只修改有效节点的名称。
+  const proxies = Array.isArray(config.proxies) ? config.proxies : [];
 
-  for (const proxy of airportAProxies) {
+  for (const proxy of proxies) {
     if (
       proxy &&
       typeof proxy === "object" &&
@@ -37,9 +37,9 @@ function main(config) {
     }
   }
 
-  config.proxies = airportAProxies;
+  config.proxies = proxies;
 
-  const airportANames = airportAProxies
+  const proxyNames = proxies
     .filter(
       (proxy) =>
         proxy &&
@@ -51,43 +51,15 @@ function main(config) {
 
   const generalPattern = /(日本|香港|新加坡|美国|韩国|土耳其)(?!.*3X)/;
   const aiPattern = /(美国|韩国|日本|新加坡)(?!.*3X)/;
-  const generalAirportANames = airportANames.filter((name) =>
+  const generalProxyNames = proxyNames.filter((name) =>
     generalPattern.test(name)
   );
-  const aiAirportANames = airportANames.filter((name) => aiPattern.test(name));
+  const aiProxyNames = proxyNames.filter((name) => aiPattern.test(name));
 
-  // Provider：删除机场 A 自带配置，仅重新加入 unicorn。
-  config["proxy-providers"] = {
-    unicorn: {
-      type: "http",
-      path: "./proxies/unicorn.yaml",
-      url: "填写-unicorn-订阅链接",
-      interval: 86400,
-      override: {
-        "proxy-name": [
-          { pattern: "美国[\\s\\-－—_]*", target: "" },
-          { pattern: "(\\d)x", target: "$1X" },
-          { pattern: "(\\S{2})(\\d{2}) (\\|) (\\w{2})", target: " $1 $2" },
-          { pattern: "(丨)(\\d{1,2}X) (\\w{2})", target: " $2" },
-          { pattern: "(ˣ¹)", target: " 1X" },
-          { pattern: "(ˣ²)", target: " 2X" },
-          { pattern: "(ˣ³)", target: " 3X" },
-          { pattern: "(ˣ⁴)", target: " 4X" },
-          { pattern: "(ˣ⁵)", target: " 5X" },
-          { pattern: "(\\p{Han}{2,5})(丨)", target: " $1$2" },
-          { pattern: "\\s+", target: " " },
-          { pattern: "^\\s+|\\s+$", target: "" }
-        ]
-      },
-      "health-check": {
-        enable: true,
-        interval: 600,
-        url: "http://www.gstatic.com/generate_204"
-      }
-    }
-  };
+  // 删除订阅自带的 proxy-provider，全部节点均来自顶层 proxies。
+  delete config["proxy-providers"];
 
-  // 策略组：机场 A 使用顶层节点名，unicorn 使用 provider。
+  // 策略组：仅使用顶层节点名。
   const generalFilter = "(日本|香港|新加坡|美国|韩国|土耳其)(?!.*3X)";
   const aiFilter = "(美国|韩国|日本|新加坡)(?!.*3X)";
 
@@ -108,8 +80,7 @@ function main(config) {
       name: "PROXY",
       type: "select",
       filter: generalFilter,
-      proxies: generalAirportANames,
-      use: ["unicorn"],
+      proxies: generalProxyNames,
       icon: "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png"
     },
     {
@@ -118,8 +89,7 @@ function main(config) {
       filter: generalFilter,
       interval: 300,
       url: "https://www.gstatic.com/generate_204",
-      proxies: ["PROXY", ...generalAirportANames],
-      use: ["unicorn"],
+      proxies: ["PROXY", ...generalProxyNames],
       icon: "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png"
     },
     {
@@ -128,8 +98,7 @@ function main(config) {
       filter: aiFilter,
       interval: 300,
       url: "https://www.gstatic.com/generate_204",
-      proxies: aiAirportANames,
-      use: ["unicorn"],
+      proxies: aiProxyNames,
       icon: "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png"
     }
   ];
