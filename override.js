@@ -63,6 +63,22 @@ function main(config) {
       path: "./proxies/unicorn.yaml",
       url: "填写-unicorn-订阅链接",
       interval: 86400,
+      override: {
+        "proxy-name": [
+          { pattern: "美国[\\s\\-－—_]*", target: "" },
+          { pattern: "(\\d)x", target: "$1X" },
+          { pattern: "(\\S{2})(\\d{2}) (\\|) (\\w{2})", target: " $1 $2" },
+          { pattern: "(丨)(\\d{1,2}X) (\\w{2})", target: " $2" },
+          { pattern: "(ˣ¹)", target: " 1X" },
+          { pattern: "(ˣ²)", target: " 2X" },
+          { pattern: "(ˣ³)", target: " 3X" },
+          { pattern: "(ˣ⁴)", target: " 4X" },
+          { pattern: "(ˣ⁵)", target: " 5X" },
+          { pattern: "(\\p{Han}{2,5})(丨)", target: " $1$2" },
+          { pattern: "\\s+", target: " " },
+          { pattern: "^\\s+|\\s+$", target: "" }
+        ]
+      },
       "health-check": {
         enable: true,
         interval: 600,
