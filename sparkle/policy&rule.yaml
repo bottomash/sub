@@ -11,22 +11,24 @@ proxy-groups:
       - DIRECT
       - Auto
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/OneDrive.png
+
   - name: PROXY
     type: select
     include-all: true
-    filter: (日本|香港|新加坡|美国|韩国|土耳其)
     exclude-filter: 3X|5X|10X
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png
+
   - name: Auto
     type: fallback
     interval: 300
     url: https://www.gstatic.com/generate_204
-    include-all: true
-    filter: (日本|香港|新加坡|美国|韩国|土耳其)
-    exclude-filter: 3X|5X|10X
     proxies:
       - PROXY
+    include-all: true
+    exclude-filter: 3X|5X|10X  
+    filter: (日本|香港|新加坡|美国|韩国|土耳其)
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png
+
   - name: AI
     type: fallback
     interval: 300
