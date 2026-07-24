@@ -1,0 +1,12 @@
+{
+  "name": "sub-config",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:surge": "node scripts/build-surge.mjs",
+    "check:surge": "node scripts/build-surge.mjs --check"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  }
+}
