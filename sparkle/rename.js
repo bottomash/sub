@@ -18,7 +18,7 @@ function renameNode(name) {
     .trim();
 }
 
-function main(config) {
+function applyNodeOverride(config) {
   if (!config || typeof config !== "object" || Array.isArray(config)) {
     config = {};
   }
@@ -40,18 +40,6 @@ function main(config) {
       proxy.name = renameNode(proxy.name);
     }
   }
-
-  const globalExcludePattern = /(?:3|5|10)X|家宽|星链|住宅|游戏/;
-  proxies = proxies.filter(
-    (proxy) =>
-      !(
-        proxy &&
-        typeof proxy === "object" &&
-        !Array.isArray(proxy) &&
-        typeof proxy.name === "string" &&
-        globalExcludePattern.test(proxy.name)
-      )
-  );
 
   config.proxies = proxies;
 

@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 import YAML from "yaml";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const sourcePath = path.join(rootDir, "sparkle", "rule.yaml");
-const outputPath = path.join(rootDir, "surge", "rule.conf");
+const sourcePath = path.join(rootDir, "sparkle", "policy.yml");
+const outputPath = path.join(rootDir, "surge", "policy.conf");
 
 function requireArray(value, name) {
   if (!Array.isArray(value)) {
@@ -108,7 +108,7 @@ async function generate() {
   const rules = requireArray(source.rules, "rules");
 
   return [
-    "# 此文件由 scripts/build-surge.mjs 根据 sparkle/rule.yaml 自动生成，请勿手动修改。",
+    "# 此文件由 surge/build-surge.mjs 根据 sparkle/policy.yml 自动生成，请勿手动修改。",
     "",
     "[Proxy Group]",
     ...groups.map(buildProxyGroup),
@@ -124,7 +124,7 @@ const generated = await generate();
 if (process.argv.includes("--check")) {
   const current = await readFile(outputPath, "utf8").catch(() => "");
   if (current !== generated) {
-    console.error("surge/rule.conf 不是由当前 sparkle/rule.yaml 生成的");
+    console.error("surge/policy.conf 不是由当前 sparkle/policy.yml 生成的");
     process.exitCode = 1;
   }
 } else {

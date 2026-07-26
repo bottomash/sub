@@ -15,7 +15,7 @@ proxy-groups:
   - name: PROXY
     type: select
     include-all: true
-    exclude-filter: 3X|5X|10X
+    exclude-filter: 3X|5X|10X|家宽|星链|住宅|游戏
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png
 
   - name: Auto
@@ -25,7 +25,7 @@ proxy-groups:
     proxies:
       - PROXY
     include-all: true
-    exclude-filter: 3X|5X|10X  
+    exclude-filter: 3X|5X|10X|家宽|星链|住宅|游戏
     filter: (日本|香港|新加坡|美国|韩国|土耳其)
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png
 
@@ -34,7 +34,7 @@ proxy-groups:
     interval: 300
     url: https://www.gstatic.com/generate_204
     filter: (美国|韩国|日本|新加坡)
-    exclude-filter: 3X|5X|10X
+    exclude-filter: 3X|5X|10X|家宽|星链|住宅|游戏
     include-all: true
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 
