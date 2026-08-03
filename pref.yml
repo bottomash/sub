@@ -7,8 +7,6 @@ node_pref:
   sort_flag: false
   clash_use_new_field_name: true
   clash_proxies_style: flow
-  rename_node:
-  - {import: rename.txt}
 
 aliases:
   - {uri: /clash, target: "/sub?target=clash&new_name=true"}
