@@ -2,9 +2,7 @@
   "name": "sub-config",
   "private": true,
   "type": "module",
-  "scripts": {
-    "check": "node build-configs.mjs --check"
-  },
+  "scripts": {},
   "dependencies": {
     "yaml": "^2.9.0"
   }

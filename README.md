@@ -49,14 +49,16 @@
 | PROXY | select | 手动选择代理节点 |
 | OneDrive | select | OneDrive 分流，可选 DIRECT 或 Auto |
 
-## 生成配置
+## 本地操作
 
 ```bash
 cd script
-npm ci          # 安装依赖
-npm run build   # 重新生成 sparkle-override.js / surge/policy.conf / pref.yml
-npm run check   # 校验产物是否与源文件一致（CI 中也可使用）
+npm ci                          # 安装依赖
+node build-configs.mjs          # 重新生成产物（仅本地预览用，正式流程由 CI 自动生成）
+node build-configs.mjs --check  # 校验产物是否与源文件一致
 ```
+
+> 本仓库不提供 `npm run build` / `npm run check` 命令，生成与校验均由 CI 或直接调用脚本完成。
 
 ## 部署
 
