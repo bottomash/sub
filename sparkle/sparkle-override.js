@@ -118,7 +118,7 @@ function main(config) {
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/OneDrive.png"
     },
     {
-      "name": "Global",
+      "name": "GLOBAL",
       "type": "select",
       "proxies": [
         "DIRECT",

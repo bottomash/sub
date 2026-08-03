@@ -75,7 +75,7 @@ proxy_groups:
       rule:
         - "[]DIRECT"
         - "[]Auto"
-    - name: Global
+    - name: GLOBAL
       type: select
       rule:
         - "[]DIRECT"
