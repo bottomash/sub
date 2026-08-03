@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build-configs.mjs",
     "check": "node build-configs.mjs --check"
   },
   "dependencies": {

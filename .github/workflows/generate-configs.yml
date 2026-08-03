@@ -40,7 +40,7 @@ jobs:
         working-directory: script
 
       - name: Generate client configurations
-        run: npm run build
+        run: node build-configs.mjs
         working-directory: script
 
       - name: Commit generated configurations
