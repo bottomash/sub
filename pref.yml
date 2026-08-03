@@ -1,15 +1,84 @@
+# 此文件由 script/build-configs.mjs 根据 sparkle/policy.yml 和 sparkle/rename.js 自动生成，请勿手动修改。
 common:
   api_mode: false
-  clash_rule_base: sparkle/clash.yml
+  clash_rule_base: sparkle/policy.yml
   enable_filter: true
-
 node_pref:
   sort_flag: false
   clash_use_new_field_name: true
   clash_proxies_style: flow
-
+  rename_node:
+    - match: 美国[\s\-－—_]*
+      replace: ""
+    - match: (\d)x
+      replace: $1X
+    - match: (\S+)(\d{2}) (\|) (\w{2})
+      replace: " $1 $2"
+    - match: (丨)(\d{1,2}X) (\w{2})
+      replace: " $2"
+    - match: (ˣ¹)
+      replace: " 1X"
+    - match: (ˣ²)
+      replace: " 2X"
+    - match: (ˣ³)
+      replace: " 3X"
+    - match: (ˣ⁴)
+      replace: " 4X"
+    - match: (ˣ⁵)
+      replace: " 5X"
+    - match: (\p{Han}{2,5})(丨)
+      replace: " $1$2"
+    - match: \s+
+      replace: " "
 aliases:
-  - {uri: /clash, target: "/sub?target=clash&new_name=true"}
-
+  - uri: /clash
+    target: /sub?target=clash&new_name=true
+rulesets:
+  enabled: true
+  overwrite_original_rules: true
+  rulesets:
+    - rule: RULE-SET,agi
+      group: AGI
+    - rule: RULE-SET,onedrive
+      group: OneDrive
+    - rule: RULE-SET,direct
+      group: DIRECT
+    - rule: RULE-SET,proxy
+      group: Auto
+    - rule: GEOIP,LAN
+      group: DIRECT
+    - rule: GEOIP,CN
+      group: DIRECT
+    - rule: MATCH
+      group: Auto
+proxy_groups:
+  custom_proxy_group:
+    - name: Global
+      type: select
+      rule:
+        - "[]DIRECT"
+        - "[]Auto"
+    - name: AGI
+      type: fallback
+      rule:
+        - (?=.*(?:(美国|韩国|日本|新加坡)))(?!.*(?:3X|5X|10X|家宽|星链|住宅|游戏)).*$
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    - name: Auto
+      type: fallback
+      rule:
+        - "[]PROXY"
+        - (?=.*(?:(日本|香港|新加坡|美国|韩国|土耳其)))(?!.*(?:3X|5X|10X|家宽|星链|住宅|游戏)).*$
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    - name: PROXY
+      type: select
+      rule:
+        - (?!.*(?:3X|5X|10X|家宽|星链|住宅|游戏)).*$
+    - name: OneDrive
+      type: select
+      rule:
+        - "[]DIRECT"
+        - "[]Auto"
 advanced:
   enable_cache: false
