@@ -83,7 +83,7 @@ function main(config) {
       "interval": 300,
       "url": "https://www.gstatic.com/generate_204",
       "filter": "(美国|韩国|日本|新加坡)",
-      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏",
+      "exclude-filter": "3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏",
       "include-all": true,
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png"
     },
@@ -97,7 +97,7 @@ function main(config) {
       ],
       "include-all": true,
       "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
-      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏",
+      "exclude-filter": "3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png"
     },
     {
@@ -105,7 +105,7 @@ function main(config) {
       "type": "select",
       "include-all": true,
       "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
-      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏|台湾",
+      "exclude-filter": "3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏|台湾",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png"
     },
     {
