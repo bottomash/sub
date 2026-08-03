@@ -1,7 +1,6 @@
 PROCESS-NAME,QQ.exe
 PROCESS-NAME,nact.exe
 PROCESS-NAME,steam.exe
-PROCESS-NAME,tailscale.exe
 PROCESS-NAME,qbittorrent-nox
 
 DOMAIN-KEYWORD,ieee
@@ -42,7 +41,6 @@ DOMAIN-SUFFIX,alipay.com
 DOMAIN-SUFFIX,alicdn.com
 DOMAIN-SUFFIX,melogin.cn
 DOMAIN-SUFFIX,maimemo.com
-DOMAIN-SUFFIX,tailscale.com
 DOMAIN-SUFFIX,t.audiences.me
 DOMAIN-SUFFIX,aliyundrive.net
 DOMAIN-SUFFIX,yacd.haishan.me
