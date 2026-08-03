@@ -1,0 +1,1 @@
+After completing the changes, review the diff, verify the code, commit only the current task’s changes, and push to the current branch’s existing upstream.
