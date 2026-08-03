@@ -63,13 +63,13 @@ proxy_groups:
       type: fallback
       rule:
         - "[]PROXY"
-        - (?=.*(?:(日本|香港|新加坡|美国|韩国|土耳其)))(?!.*(?:3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏)).*$
+        - (?=.*(?:(日本|香港|新加坡|韩国|土耳其)))(?!.*(?:3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏)).*$
       url: https://www.gstatic.com/generate_204
       interval: 300
     - name: PROXY
       type: select
       rule:
-        - (?=.*(?:(日本|香港|新加坡|美国|韩国|土耳其)))(?!.*(?:3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏|台湾)).*$
+        - (?=.*(?:(日本|香港|新加坡|韩国|土耳其)))(?!.*(?:3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏|台湾)).*$
     - name: OneDrive
       type: select
       rule:

@@ -96,7 +96,7 @@ function main(config) {
         "PROXY"
       ],
       "include-all": true,
-      "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
+      "filter": "(日本|香港|新加坡|韩国|土耳其)",
       "exclude-filter": "3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png"
     },
@@ -104,7 +104,7 @@ function main(config) {
       "name": "PROXY",
       "type": "select",
       "include-all": true,
-      "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
+      "filter": "(日本|香港|新加坡|韩国|土耳其)",
       "exclude-filter": "3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏|台湾",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png"
     },
