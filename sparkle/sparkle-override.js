@@ -78,15 +78,6 @@ function main(config) {
   },
   "proxy-groups": [
     {
-      "name": "Global",
-      "type": "select",
-      "proxies": [
-        "DIRECT",
-        "Auto"
-      ],
-      "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Global.png"
-    },
-    {
       "name": "AGI",
       "type": "fallback",
       "interval": 300,
@@ -105,15 +96,16 @@ function main(config) {
         "PROXY"
       ],
       "include-all": true,
-      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏",
       "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
+      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Auto.png"
     },
     {
       "name": "PROXY",
       "type": "select",
       "include-all": true,
-      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏",
+      "filter": "(日本|香港|新加坡|美国|韩国|土耳其)",
+      "exclude-filter": "3X|5X|10X|家宽|星链|住宅|游戏|台湾",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Proxy.png"
     },
     {
@@ -124,6 +116,15 @@ function main(config) {
         "Auto"
       ],
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/OneDrive.png"
+    },
+    {
+      "name": "Global",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "Auto"
+      ],
+      "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/Global.png"
     }
   ],
   "rule-providers": {
