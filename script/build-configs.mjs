@@ -13,6 +13,7 @@ const prefOutputPath = path.join(rootDir, "pref.yml");
 
 const surgeManagedConfig =
   "#!MANAGED-CONFIG https://raw.zhai.dev/bottomash/sub/latest/surge/policy.conf";
+const surgeAdditionalRules = ["DOMAIN-SUFFIX,ad.12306.cn,REJECT"];
 
 function requireArray(value, name) {
   if (!Array.isArray(value)) {
@@ -248,6 +249,7 @@ function buildSurgePolicy(policy) {
     ...renderedGroups,
     "",
     "[Rule]",
+    ...surgeAdditionalRules,
     ...rules.map((rule, index) => buildSurgeRule(rule, providers, index)),
     "",
   ].join("\n");
