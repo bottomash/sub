@@ -1,109 +1,118 @@
 # sub
 
-基于 [subconverter](https://github.com/tindy2013/subconverter) 的个人代理订阅配置仓库，以单一来源（`sparkle/policy.yml` + `sparkle/rename.js`）维护规则与策略组，自动生成 Clash / Surge / subconverter 三种客户端配置，并通过 GitHub Actions 发布 Docker 镜像与配置产物。
+基于 [subconverter](https://github.com/tindy2013/subconverter) 的个人代理订阅配置与规则仓库。`sparkle/policy.yml` 和 `sparkle/rename.js` 是客户端配置生成源，`rule/*.txt` 是独立维护的规则集；GitHub Actions 根据这些文件生成 Clash/Sparkle 覆盖脚本、Surge 托管配置和 subconverter 偏好配置，并提供 Docker 镜像发布工作流。
 
-项目来源：https://github.com/tindy2013/subconverter
+项目来源：[tindy2013/subconverter](https://github.com/tindy2013/subconverter)
 
 ## 目录结构
 
-```
-├── sparkle/                  # 配置源文件（唯一编辑入口）
-│   ├── policy.yml            #   策略组、规则、DNS 等 Clash 策略配置
-│   ├── rename.js             #   节点重命名规则（renameNode）
-│   └── sparkle-override.js   # [生成] Clash (Sparkle) 覆盖配置
+```text
+├── .github/workflows/
+│   ├── generate-configs.yml  # 生成并提交客户端配置
+│   └── docker.yml            # 构建并发布 Docker 镜像
+├── sparkle/
+│   ├── policy.yml            # 配置源：基础配置、策略组、规则提供者和规则顺序
+│   ├── rename.js             # 配置源：节点重命名函数
+│   └── sparkle-override.js   # [生成] Clash/Sparkle 覆盖脚本
 ├── surge/
 │   └── policy.conf           # [生成] Surge 托管配置
-├── rule/                     # 规则集（RULE-SET 文本格式）
-│   ├── agi.txt               #   AI 服务走代理
-│   ├── proxy.txt             #   国外常用服务走代理
-│   ├── direct.txt            #   国内 / 学术 / 直连
-│   └── onedrive.txt          #   OneDrive 分流
+├── rule/                     # 独立维护的 classical 规则集
+│   ├── agi.txt               # AI 服务规则
+│   ├── proxy.txt             # 代理规则
+│   ├── direct.txt            # 直连规则
+│   └── onedrive.txt          # OneDrive / SharePoint 规则
 ├── script/
-│   ├── build-configs.mjs     # 配置生成脚本（node 22 + yaml）
-│   └── package.json
+│   ├── build-configs.mjs     # 配置生成与校验脚本
+│   ├── package.json          # Node.js 依赖声明
+│   └── package-lock.json
 ├── pref.yml                  # [生成] subconverter 偏好配置
 ├── emoji.toml                # subconverter 节点 emoji 映射
-├── Dockerfile                # subconverter 镜像（内置本仓库配置）
-└── .github/workflows/        # CI：生成配置 + 发布 Docker 镜像
+└── Dockerfile                # 基于上游 subconverter 的配置镜像
 ```
 
-> `[生成]` 标记的文件由脚本自动生成，请勿手动修改。
+`[生成]` 文件由 `script/build-configs.mjs` 生成，请修改源文件后重新生成，不要手动编辑生成产物。
 
 ## 工作原理
 
-1. 在 `sparkle/policy.yml` 中维护策略组（Global / AGI / Auto / PROXY / OneDrive）、规则集引用与 DNS 配置；
-2. 在 `sparkle/rename.js` 中维护节点重命名规则（统一倍率写法、清理名称中的多余字符）；
-3. 运行 `script/build-configs.mjs` 生成三个产物：
-   - `sparkle/sparkle-override.js` —— Clash 客户端（如 Sparkle）的覆盖配置；
-   - `surge/policy.conf` —— Surge 托管配置；
-   - `pref.yml` —— subconverter 的偏好设置（含重命名规则与策略组转换）。
-4. `rule/*.txt` 为各客户端共享的规则集文件，通过 `raw.zhai.dev` 镜像分发。
+1. 在 `sparkle/policy.yml` 中维护 Clash/Mihomo 基础配置、DNS、策略组、规则提供者和规则顺序。规则提供者指向本仓库的 `rule/*.txt` 文件。
+2. 在 `sparkle/rename.js` 的 `renameNode` 函数中维护节点名称替换规则。生成脚本会解析其中的 `replace` 规则，将它们写入各客户端产物；不会直接执行该文件。
+3. 运行 `script/build-configs.mjs`，生成：
+   - `sparkle/sparkle-override.js`：包含节点重命名和策略配置的 Clash/Sparkle 覆盖脚本。它会清理输入配置中的旧策略组、规则提供者和规则，再合并本仓库策略。
+   - `surge/policy.conf`：将策略组、规则提供者和规则转换为 Surge 格式的托管配置。名称为 `Global`（不区分大小写）的策略组不会写入 Surge 产物，并额外加入 `DOMAIN-SUFFIX,ad.12306.cn,REJECT`。
+   - `pref.yml`：subconverter 的偏好配置，包含重命名规则、规则集映射、自定义策略组、`/clash` 别名以及关闭缓存的设置。
+4. `rule/*.txt` 独立维护，每行是一条 classical 规则；Sparkle、Surge 和 subconverter 通过 `sparkle/policy.yml` 中的规则提供者或生成后的 URL 共同使用这些规则。
 
-### 策略组说明
+### 策略组
 
-| 策略组 | 类型 | 说明 |
+| 策略组 | 类型 | 实际行为 |
 | --- | --- | --- |
-| Global | select | 总开关，可在 DIRECT / Auto 间切换 |
-| Auto | fallback | 常用地区节点自动测速切换（日/港/新/美/韩/土） |
-| AGI | fallback | AI 服务节点（美/韩/日/新），与 Auto 相互独立 |
-| PROXY | select | 手动选择代理节点 |
-| OneDrive | select | OneDrive 分流，可选 DIRECT 或 Auto |
+| `AGI` | fallback | 从美国、韩国、日本、新加坡节点中自动选择，排除倍率节点、家宽、星链、住宅和游戏节点 |
+| `Auto` | fallback | 优先使用 `PROXY`，再从日本、香港、新加坡、韩国、土耳其节点中自动选择 |
+| `PROXY` | select | 手动选择日本、香港、新加坡、韩国、土耳其节点，排除台湾及特定节点 |
+| `OneDrive` | select | 在 `DIRECT` 和 `Auto` 之间选择，用于 OneDrive 分流 |
+| `GLOBAL` | select | 在 `DIRECT` 和 `Auto` 之间选择；保留在 Clash/Sparkle 和 subconverter 配置中，Surge 产物按生成规则跳过 |
 
-## 本地操作
+当前规则顺序为：AI → OneDrive → 直连规则 → 代理规则 → 局域网/中国大陆直连 → 其余流量使用 `Auto`。
+
+## 本地生成与校验
 
 ```bash
 cd script
-npm ci                          # 安装依赖
-node build-configs.mjs          # 重新生成产物（仅本地预览用，正式流程由 CI 自动生成）
+npm ci
+node build-configs.mjs          # 生成三个客户端产物
 node build-configs.mjs --check  # 校验产物是否与源文件一致
 ```
 
-> 本仓库不提供 `npm run build` / `npm run check` 命令，生成与校验均由 CI 或直接调用脚本完成。
+CI 使用 Node.js 22；本地也建议使用 Node.js 22。项目没有 `npm run build` 或 `npm run check`，生成和校验均通过 Node.js 直接调用脚本完成。`--check` 以退出码 0 表示三个生成文件均与当前源文件一致。
 
-## 部署
+## 使用方式
 
 ### Docker（subconverter）
 
+`Dockerfile` 基于 `metacubex/subconverter:latest`，将整个仓库复制到上游镜像约定的 `/base/` 目录，不包含独立的转换服务实现。
+
 ```bash
 docker build -t bottomash/subconverter .
-docker run -d -p 25500:25500 bottomash/subconverter
+docker run -d --name subconverter -p 25500:25500 bottomash/subconverter
 ```
 
-启动后即可通过 subconverter 接口订阅转换，例如：
+启动后可通过 subconverter 接口转换订阅：
 
-```
+```text
 http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 ```
 
-GitHub Actions 会在 push 到 `latest` 分支或打 tag 时自动构建并推送镜像到 Docker Hub（`bottomash/subconverter`）。
+镜像发布地址为 Docker Hub 的 `bottomash/subconverter`。GitHub Actions 需要仓库 Secrets 中的 `DOCKER_USERNAME` 和 `DOCKER_PASSWORD` 才能登录并推送镜像；当前 Docker 工作流已暂停自动触发，仅支持手动运行。
 
-### Clash
+### Clash / Sparkle
 
-在客户端中导入 `sparkle/sparkle-override.js`（Sparkle）或将 `pref.yml` 交给 subconverter 处理：
+Sparkle 等支持 JavaScript 覆盖配置的客户端可直接使用生成文件：
 
-```
+```text
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/sparkle-override.js
 ```
 
+`pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
+
 ### Surge
 
-使用托管配置：
+将以下地址作为 Surge 托管配置：
 
-```
+```text
 https://raw.zhai.dev/bottomash/sub/latest/surge/policy.conf
 ```
 
 ## 自动化
 
-- `generate-configs.yml`：push 到 `latest` 分支且源文件变更时，自动重新生成产物并提交；
-- `docker.yml`：push 到 `latest` 分支或打 tag 时，构建并推送 Docker 镜像。
+- `generate-configs.yml`：在 `latest` 分支上，当 `sparkle/policy.yml`、`sparkle/rename.js`、生成脚本、Node.js 依赖文件或该工作流变化时运行，也支持手动触发；生成后只提交 `sparkle/sparkle-override.js`、`surge/policy.conf` 和 `pref.yml`。
+- `docker.yml`：当前仅支持 `workflow_dispatch` 手动触发，运行后构建并推送 `bottomash/subconverter` Docker Hub 镜像。
 
-## 常用规则集说明
+## 规则集说明
 
-- `rule/agi.txt`：ChatGPT、Gemini、Claude、Perplexity、OpenAI 等 AI 服务；
-- `rule/proxy.txt`：Google、GitHub、Telegram、YouTube、Steam 社区等；
-- `rule/direct.txt`：国内站点、学术资源（IEEE、CNKI、ScienceDirect）、Steam 商店等直连；
-- `rule/onedrive.txt`：OneDrive / SharePoint / Microsoft 个人内容。
+- `rule/agi.txt`：AI 服务及相关进程、域名规则，例如 ChatGPT、Gemini、Claude、Perplexity、OpenAI 等。
+- `rule/proxy.txt`：常用境外服务和平台规则，例如 Google、GitHub、Telegram、YouTube、Steam 社区等。
+- `rule/direct.txt`：国内站点、学术资源和部分本地服务规则，例如 IEEE、CNKI、ScienceDirect、Steam 商店等。
+- `rule/onedrive.txt`：OneDrive、SharePoint 及 Microsoft 个人内容规则。
 
 ## 许可证与致谢
 
