@@ -1,4 +1,6 @@
 PROCESS-NAME,Claude Setup.exe
+PROCESS-NAME,codex.exe
+PROCESS-NAME,ChatGPT.exe
 
 DOMAIN-SUFFIX,generativeai.google
 DOMAIN,antigravity.google
