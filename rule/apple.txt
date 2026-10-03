@@ -1,0 +1,4 @@
+PROCESS-NAME,iCloudCKKS.exe
+
+DOMAIN-KEYWORD,icloud.com
+DOMAIN-KEYWORD,apple.com
