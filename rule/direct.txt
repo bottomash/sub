@@ -18,6 +18,7 @@ DOMAIN-KEYWORD,steambroadcast
 DOMAIN-KEYWORD,steamuserimages
 DOMAIN-KEYWORD,meituan
 DOMAIN-KEYWORD,dianping
+DOMAIN-KEYWORD,xiaohonhshu
 
 DOMAIN-SUFFIX,doi.org
 DOMAIN-SUFFIX,cnki.net
