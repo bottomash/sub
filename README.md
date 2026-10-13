@@ -13,6 +13,7 @@
 ├── sparkle/
 │   ├── policy.yml            # 配置源：基础配置、策略组、规则提供者和规则顺序
 │   ├── rename.js             # 配置源：节点重命名函数
+│   ├── agi-override.js       # AGI 增量覆写，保留订阅原有配置
 │   └── sparkle-override.js   # [生成] Clash/Sparkle 覆盖脚本
 ├── surge/
 │   └── policy.conf           # [生成] Surge 托管配置
@@ -91,6 +92,14 @@ Sparkle 等支持 JavaScript 覆盖配置的客户端可直接使用生成文件
 ```text
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/sparkle-override.js
 ```
+
+如需保留现有订阅的策略组和规则，仅增量添加 AGI 分流，可使用：
+
+```text
+https://raw.zhai.dev/bottomash/sub/latest/sparkle/agi-override.js
+```
+
+该覆写会添加或更新 `tag` 节点提供者、`AGI` 策略组、`agi` 规则提供者和对应规则。`tag.yml` 应放在 `C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml`。
 
 `pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
 
