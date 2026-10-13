@@ -6,7 +6,7 @@
 //     server: example.com
 //     port: 443
 
-const LOCAL_PROVIDER_NAME = "AI Local";
+const LOCAL_PROVIDER_NAME = "tag";
 const AI_GROUP_NAME = "AI";
 const AI_RULE_PROVIDER_NAME = "agi";
 
