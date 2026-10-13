@@ -7,6 +7,8 @@ import YAML from "yaml";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const policyPath = path.join(rootDir, "sparkle", "policy.yml");
 const renamePath = path.join(rootDir, "sparkle", "rename.js");
+const aiOverridePath = path.join(rootDir, "sparkle", "ai-override.yml");
+const od1OutputPath = path.join(rootDir, "sparkle", "od1.js");
 const sparkleOutputPath = path.join(rootDir, "sparkle", "sparkle-override.js");
 const surgeOutputPath = path.join(rootDir, "surge", "policy.conf");
 const prefOutputPath = path.join(rootDir, "pref.yml");
@@ -217,10 +219,36 @@ function buildSubconverterRulesets(rules) {
   });
 }
 
-function buildSparkleOverride(policy, renameSource) {
+function buildOd1Override(policy, aiOverride, renameSource) {
+  const tag = requireObject(aiOverride["proxy-providers"]?.tag, "proxy-providers.tag");
+  const groups = requireArray(policy["proxy-groups"], "proxy-groups");
+  if (!groups.some((group) => group.name === "AGI")) {
+    throw new Error("policy.yml 缺少 AGI 策略组");
+  }
+  const merged = {
+    ...policy,
+    "proxy-providers": { ...policy["proxy-providers"], tag },
+    "proxy-groups": groups.map((group) =>
+      group.name === "AGI"
+        ? { ...group, use: [...new Set([...(group.use ?? []), "tag"])] }
+        : group,
+    ),
+  };
+  return buildSparkleOverride(
+    merged,
+    renameSource,
+    "sparkle/ai-override.yml、sparkle/policy.yml 和 sparkle/rename.js",
+  );
+}
+
+function buildSparkleOverride(
+  policy,
+  renameSource,
+  sources = "sparkle/policy.yml 和 sparkle/rename.js",
+) {
   const policyLiteral = JSON.stringify(policy, null, 2);
   return [
-    "// 此文件由 script/build-configs.mjs 根据 sparkle/policy.yml 和 sparkle/rename.js 自动生成，请勿手动修改。",
+    `// 此文件由 script/build-configs.mjs 根据 ${sources} 自动生成，请勿手动修改。`,
     "",
     renameSource.trimEnd(),
     "",
@@ -306,17 +334,20 @@ function buildPref(policy, renameSource) {
 }
 
 async function loadSources() {
-  const [policySource, renameSource] = await Promise.all([
+  const [policySource, renameSource, aiOverrideSource] = await Promise.all([
     readFile(policyPath, "utf8"),
     readFile(renamePath, "utf8"),
+    readFile(aiOverridePath, "utf8"),
   ]);
   const policy = requireObject(YAML.parse(policySource), "配置根节点");
-  return { policy, renameSource };
+  const aiOverride = requireObject(YAML.parse(aiOverrideSource), "AI 配置根节点");
+  return { policy, renameSource, aiOverride };
 }
 
 export async function generateArtifacts() {
-  const { policy, renameSource } = await loadSources();
+  const { policy, renameSource, aiOverride } = await loadSources();
   return {
+    [od1OutputPath]: buildOd1Override(policy, aiOverride, renameSource),
     [sparkleOutputPath]: buildSparkleOverride(policy, renameSource),
     [surgeOutputPath]: buildSurgePolicy(policy),
     [prefOutputPath]: buildPref(policy, renameSource),
