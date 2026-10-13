@@ -1,0 +1,30 @@
+proxy-providers:
+  tag:
+    type: file
+    path: ./profiles/tag.yml
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+
+proxy-groups:
+  - name: AI
+    type: select
+    proxies:
+      - Auto
+      - PROXY
+    use:
+      - tag
+
+rule-providers:
+  agi:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/agi.txt
+    path: ./rule_provider/agi.txt
+    interval: 86400
+
+rules:
+  - RULE-SET,agi,AI
+  - MATCH,DIRECT
