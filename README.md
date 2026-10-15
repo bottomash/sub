@@ -26,6 +26,7 @@
 │   └── onedrive.txt          # OneDrive / SharePoint 规则
 ├── script/
 │   ├── build-configs.mjs     # 配置生成与校验脚本
+│   ├── raw-github-to-zhai.test.mjs # Raw GitHub 跳转脚本测试
 │   ├── package.json          # Node.js 依赖声明
 │   └── package-lock.json
 ├── pref.yml                  # [生成] subconverter 偏好配置
@@ -115,7 +116,7 @@ https://raw.zhai.dev/bottomash/sub/latest/surge/policy.conf
 
 ### 油猴脚本
 
-安装以下脚本后，访问 `raw.githubusercontent.com` 时会自动跳转到路径、查询参数和锚点相同的 `raw.zhai.dev` 地址：
+安装以下脚本后，访问 `raw.githubusercontent.com` 时会自动跳转到对应的 `raw.zhai.dev` 地址，并将路径中的 `/refs/heads/<分支>/` 转换为 `/<分支>/`；查询参数和锚点保持不变：
 
 ```text
 https://raw.zhai.dev/bottomash/sub/latest/userscript/raw-github-to-zhai.user.js

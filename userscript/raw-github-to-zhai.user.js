@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Raw GitHub 转 raw.zhai.dev
 // @namespace    https://github.com/bottomash/sub
-// @version      1.0.0
-// @description  自动将 raw.githubusercontent.com 地址重定向到 raw.zhai.dev
+// @version      1.0.1
+// @description  自动将 raw.githubusercontent.com 地址转换并重定向到 raw.zhai.dev
 // @author       bottomash
 // @match        *://raw.githubusercontent.com/*
 // @run-at       document-start
@@ -23,5 +23,10 @@
   target.protocol = "https:";
   target.hostname = "raw.zhai.dev";
   target.port = "";
+  target.pathname = target.pathname.replace(
+    /^\/([^/]+\/[^/]+)\/refs\/heads\//,
+    "/$1/",
+  );
+
   window.location.replace(target.href);
 })();
