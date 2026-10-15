@@ -116,7 +116,7 @@ https://raw.zhai.dev/bottomash/sub/latest/surge/policy.conf
 
 ### 油猴脚本
 
-安装以下脚本后，访问 `raw.githubusercontent.com` 时会自动跳转到对应的 `raw.zhai.dev` 地址，并将路径中的 `/refs/heads/<分支>/` 转换为 `/<分支>/`；查询参数和锚点保持不变：
+安装以下脚本后，在 GitHub 文件页面点击 `Raw` 按钮会直接打开对应的 `raw.zhai.dev` 地址；直接访问 `raw.githubusercontent.com` 时也会自动跳转。脚本会将路径中的 `/refs/heads/<分支>/` 转换为 `/<分支>/`，并保留查询参数和锚点：
 
 ```text
 https://raw.zhai.dev/bottomash/sub/latest/userscript/raw-github-to-zhai.user.js

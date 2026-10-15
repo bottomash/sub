@@ -43,3 +43,45 @@ test("保留已是简洁格式的路径、查询参数和锚点", () => {
     "https://raw.zhai.dev/bottomash/sub/latest/rule/agi.txt?raw=1#top",
   );
 });
+
+test("改写 GitHub 文件页面的 Raw 按钮链接", () => {
+  const anchor = {
+    href: "https://github.com/bottomash/sub/raw/refs/heads/latest/sparkle/agi-override.js",
+    matches(selector) {
+      return selector === "a[href]";
+    },
+  };
+  const documentElement = {
+    matches() {
+      return false;
+    },
+    querySelectorAll(selector) {
+      return selector === "a[href]" ? [anchor] : [];
+    },
+  };
+  const context = vm.createContext({
+    URL,
+    window: {
+      location: {
+        href: "https://github.com/bottomash/sub/blob/latest/sparkle/agi-override.js",
+        replace() {
+          assert.fail("GitHub 文件页面不应被直接重定向");
+        },
+      },
+    },
+    document: {
+      documentElement,
+      addEventListener() {},
+    },
+    MutationObserver: class {
+      observe() {}
+    },
+  });
+
+  vm.runInContext(source, context);
+
+  assert.equal(
+    anchor.href,
+    "https://raw.zhai.dev/bottomash/sub/latest/sparkle/agi-override.js",
+  );
+});
