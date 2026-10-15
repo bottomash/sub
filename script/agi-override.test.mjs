@@ -33,6 +33,9 @@ test("AGI 覆写保留原配置并添加 AGI 相关配置", () => {
   );
   assert.equal(result["proxy-groups"][0].name, "AGI");
   assert.deepEqual(result["proxy-groups"][0].use, ["tag"]);
+  assert.equal("filter" in result["proxy-groups"][0], false);
+  assert.equal("exclude-filter" in result["proxy-groups"][0], false);
+  assert.equal("include-all" in result["proxy-groups"][0], false);
   assert.deepEqual(result["proxy-groups"][1], {
     name: "Auto",
     type: "select",
