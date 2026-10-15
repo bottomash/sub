@@ -17,6 +17,8 @@
 │   └── sparkle-override.js   # [生成] Clash/Sparkle 覆盖脚本
 ├── surge/
 │   └── policy.conf           # [生成] Surge 托管配置
+├── userscript/
+│   └── raw-github-to-zhai.user.js # Raw GitHub 镜像跳转油猴脚本
 ├── rule/                     # 独立维护的 classical 规则集
 │   ├── agi.txt               # AI 服务规则
 │   ├── proxy.txt             # 代理规则
@@ -110,6 +112,16 @@ https://raw.zhai.dev/bottomash/sub/latest/sparkle/agi-override.js
 ```text
 https://raw.zhai.dev/bottomash/sub/latest/surge/policy.conf
 ```
+
+### 油猴脚本
+
+安装以下脚本后，访问 `raw.githubusercontent.com` 时会自动跳转到路径、查询参数和锚点相同的 `raw.zhai.dev` 地址：
+
+```text
+https://raw.zhai.dev/bottomash/sub/latest/userscript/raw-github-to-zhai.user.js
+```
+
+脚本支持 Tampermonkey 等 UserScript 管理器，并通过相同地址检查更新。
 
 ## 自动化
 
