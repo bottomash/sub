@@ -3,6 +3,7 @@ PROCESS-NAME,nact.exe
 PROCESS-NAME,steam.exe
 PROCESS-NAME,qbittorrent-nox
 PROCESS-NAME,qbittorrent.exe
+PROCESS-NAME,Weixin.exe
 
 DOMAIN-KEYWORD,ieee
 DOMAIN-KEYWORD,scopus
