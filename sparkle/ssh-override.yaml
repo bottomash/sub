@@ -1,0 +1,31 @@
+# Sparkle / Mihomo SSH 增量覆写。
+# 保留原配置，并在数组前添加 SSH 策略组和规则。
+
+proxy-providers:
+  "tag!":
+    type: file
+    path: C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+
+"+proxy-groups":
+  - name: SSH
+    type: fallback
+    interval: 300
+    url: https://www.gstatic.com/generate_204
+    icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/SSH.png
+    use:
+      - tag
+
+rule-providers:
+  "ssh!":
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/ssh.txt
+
+"+rules":
+  - RULE-SET,ssh,SSH
