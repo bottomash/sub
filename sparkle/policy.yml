@@ -21,6 +21,38 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
 
+x-client-overrides:
+  sparkle:
+    proxy-providers:
+      tag:
+        type: file
+        path: C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml
+        health-check:
+          enable: true
+          url: https://www.gstatic.com/generate_204
+          interval: 300
+    proxy-groups:
+      - name: AGI
+        type: fallback
+        interval: 300
+        url: https://www.gstatic.com/generate_204
+        icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
+        use:
+          - tag
+      - name: SSH
+        type: fallback
+        interval: 300
+        url: https://www.gstatic.com/generate_204
+        icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/SSH.png
+        use:
+          - tag
+    rule-providers:
+      - agi
+      - ssh
+    rules:
+      - RULE-SET,agi,AGI
+      - RULE-SET,ssh,SSH
+
 
 proxy-groups:
   - name: AGI
@@ -96,6 +128,12 @@ rule-providers:
     behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/onedrive.txt
+  ssh:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/ssh.txt
 
 rules:
   - RULE-SET,agi,AGI

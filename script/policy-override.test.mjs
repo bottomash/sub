@@ -4,7 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 const source = await readFile(
-  new URL("../sparkle/agi-override.js", import.meta.url),
+  new URL("../sparkle/policy-override.js", import.meta.url),
   "utf8",
 );
 
@@ -14,7 +14,7 @@ function apply(config) {
   return JSON.parse(JSON.stringify(vm.runInContext("main(config)", context)));
 }
 
-test("AGI 覆写保留原配置并添加 AGI 相关配置", () => {
+test("Sparkle 策略覆写保留原配置并添加 AGI 与 SSH 策略", () => {
   const result = apply({
     proxies: [{ name: "日本", type: "ss" }],
     "proxy-providers": { existing: { type: "http" } },
@@ -31,49 +31,68 @@ test("AGI 覆写保留原配置并添加 AGI 相关配置", () => {
     result["proxy-providers"].tag.path,
     "C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml",
   );
-  assert.equal(result["proxy-groups"][0].name, "AGI");
+  assert.deepEqual(
+    result["proxy-groups"].map((group) => group.name),
+    ["AGI", "SSH", "Auto"],
+  );
   assert.deepEqual(result["proxy-groups"][0].use, ["tag"]);
-  assert.equal("filter" in result["proxy-groups"][0], false);
-  assert.equal("exclude-filter" in result["proxy-groups"][0], false);
-  assert.equal("include-all" in result["proxy-groups"][0], false);
-  assert.deepEqual(result["proxy-groups"][1], {
-    name: "Auto",
-    type: "select",
-  });
+  assert.deepEqual(result["proxy-groups"][1].use, ["tag"]);
   assert.deepEqual(result["rule-providers"].existing, { type: "http" });
   assert.equal(result["rule-providers"].agi.behavior, "classical");
+  assert.equal(result["rule-providers"].ssh.behavior, "classical");
   assert.deepEqual(result.rules, [
     "RULE-SET,agi,AGI",
+    "RULE-SET,ssh,SSH",
     "DOMAIN,example.com,DIRECT",
     "MATCH,Auto",
   ]);
 });
 
-test("AGI 覆写可重复执行且不产生重复配置", () => {
+test("Sparkle 策略覆写可重复执行且不产生重复配置", () => {
   const first = apply({
     "proxy-groups": [
       { name: "AGI", type: "select" },
+      { name: "SSH", type: "select" },
       { name: "Auto", type: "select" },
     ],
-    rules: ["RULE-SET,agi,OLD", "MATCH,Auto"],
+    rules: [
+      "RULE-SET,agi,OLD",
+      "RULE-SET,ssh,OLD",
+      "MATCH,Auto",
+    ],
   });
   const result = apply(first);
 
-  assert.equal(
-    result["proxy-groups"].filter((group) => group.name === "AGI").length,
-    1,
-  );
+  for (const name of ["AGI", "SSH"]) {
+    assert.equal(
+      result["proxy-groups"].filter((group) => group.name === name).length,
+      1,
+    );
+  }
   assert.equal(
     result.rules.filter((rule) => rule.startsWith("RULE-SET,agi,")).length,
     1,
   );
-  assert.equal(result.rules[0], "RULE-SET,agi,AGI");
+  assert.equal(
+    result.rules.filter((rule) => rule.startsWith("RULE-SET,ssh,")).length,
+    1,
+  );
+  assert.deepEqual(result.rules.slice(0, 2), [
+    "RULE-SET,agi,AGI",
+    "RULE-SET,ssh,SSH",
+  ]);
 });
 
-test("AGI 覆写支持空输入", () => {
+test("Sparkle 策略覆写支持空输入", () => {
   for (const config of [null, undefined, [], "invalid", {}]) {
     const result = apply(config);
-    assert.equal(result["proxy-groups"][0].name, "AGI");
-    assert.equal(result.rules[0], "RULE-SET,agi,AGI");
+    assert.deepEqual(
+      result["proxy-groups"].map((group) => group.name),
+      ["AGI", "SSH"],
+    );
+    assert.deepEqual(result.rules, [
+      "RULE-SET,agi,AGI",
+      "RULE-SET,ssh,SSH",
+    ]);
   }
 });
