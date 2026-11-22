@@ -24,9 +24,6 @@ function applyNodeOverride(config) {
   }
 
   delete config["global-client-fingerprint"];
-  delete config["proxy-groups"];
-  delete config["rule-providers"];
-  delete config["rules"];
 
   let proxies = Array.isArray(config.proxies) ? config.proxies : [];
 

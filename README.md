@@ -36,7 +36,7 @@
 ## 工作原理
 
 1. 在 `sparkle/policy.yml` 中直接维护 Sparkle/Mihomo 的基础配置、`tag` 节点提供者、策略组、规则提供者和规则顺序。`AGI` 只通过 `use: [tag]` 使用 TAG profile 的节点。
-2. 在 `sparkle/rename.js` 中维护节点重命名与配置裁剪：`main(config)` 是 Sparkle 脚本覆盖的入口，Sparkle 执行 `main(config)` 并用返回值替换配置；`renameNode` 中的 `replace` 规则由生成脚本解析后写入 subconverter 偏好配置，脚本本身不会被生成脚本执行。脚本会先删掉 profile 自带的 `proxy-groups`/`rule-providers`/`rules`，再由后面的 YAML 覆盖写入，因此覆盖列表中 `rename.js` 必须排在 `policy.yml` 之前。
+2. 在 `sparkle/rename.js` 中维护节点重命名：`main(config)` 是 Sparkle 脚本覆盖的入口，Sparkle 执行 `main(config)` 并用返回值替换配置；`renameNode` 中的 `replace` 规则由生成脚本解析后写入 subconverter 偏好配置，脚本本身不会被生成脚本执行。YAML 覆盖的 `deepMerge` 会整体替换 `proxy-groups`/`rule-providers`/`rules` 这类数组，所以脚本不删这些字段，两个覆盖的先后顺序不影响结果。
 3. 运行 `script/build-configs.mjs`，生成：
    - `surge/policy.conf`：将共享策略组、规则提供者和规则转换为 Surge 格式的托管配置。`use` 的节点来源在 Surge 中转换为 `include-all-proxies`；名称为 `Global`（不区分大小写）的策略组不会写入 Surge 产物，并额外加入 `DOMAIN-SUFFIX,ad.12306.cn,REJECT`。
    - `pref.yml`：subconverter 的偏好配置，包含重命名规则、规则集映射、自定义策略组、`/clash` 别名以及关闭缓存的设置。
