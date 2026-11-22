@@ -58,7 +58,7 @@ proxy_groups:
     - name: AGI
       type: fallback
       rule:
-        - (?=.*(?:(美国|韩国|日本|新加坡)))(?!.*(?:3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏)).*$
+        - .*
       url: https://www.gstatic.com/generate_204
       interval: 300
     - name: Auto

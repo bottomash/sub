@@ -46,7 +46,7 @@
 
 | 策略组 | 类型 | 实际行为 |
 | --- | --- | --- |
-| `AGI` | fallback | Sparkle 通过本地 `tag` provider 选取美国、韩国、日本、新加坡节点；Surge/subconverter 从当前配置的节点中按相同规则筛选 |
+| `AGI` | fallback | Sparkle 使用本地 `tag` provider 的全部节点；Surge/subconverter 使用当前配置的全部节点 |
 | `Auto` | fallback | 优先使用 `PROXY`，再从日本、香港、新加坡、韩国、土耳其节点中自动选择 |
 | `PROXY` | select | 手动选择日本、香港、新加坡、韩国、土耳其节点，排除台湾及特定节点 |
 | `OneDrive` | select | 在 `DIRECT` 和 `Auto` 之间选择，用于 OneDrive 分流 |

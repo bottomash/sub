@@ -37,8 +37,6 @@ proxy-groups:
     url: https://www.gstatic.com/generate_204
     use:
       - tag
-    filter: (美国|韩国|日本|新加坡)
-    exclude-filter: 3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 
   - name: Auto
@@ -81,6 +79,12 @@ rule-providers:
     behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/agi.txt
+  ssh:
+    type: http
+    format: text
+    behavior: classical
+    interval: 86400
+    url: https://raw.zhai.dev/bottomash/sub/latest/rule/ssh.txt
   apple:
     type: http
     format: text
@@ -105,12 +109,6 @@ rule-providers:
     behavior: classical
     interval: 86400
     url: https://raw.zhai.dev/bottomash/sub/latest/rule/onedrive.txt
-  ssh:
-    type: http
-    format: text
-    behavior: classical
-    interval: 86400
-    url: https://raw.zhai.dev/bottomash/sub/latest/rule/ssh.txt
 
 rules:
   - RULE-SET,agi,AGI
