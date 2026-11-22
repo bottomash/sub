@@ -92,7 +92,7 @@ http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/policy.yml
 ```
 
-配置中的 `tag` provider 读取 `C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml` 顶层的 `proxies`，`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
+配置中的 `tag` provider 读取 Sparkle 工作目录下的 `tag.yml`；该文件可链接到 `C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml`，从其顶层 `proxies` 获取节点。`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
 
 `pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
 
