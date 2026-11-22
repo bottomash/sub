@@ -21,40 +21,24 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
 
-x-client-overrides:
-  sparkle:
-    proxy-providers:
-      tag:
-        type: file
-        path: C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml
-        health-check:
-          enable: true
-          url: https://www.gstatic.com/generate_204
-          interval: 300
-    proxy-groups:
-      - name: AGI
-        type: fallback
-        interval: 300
-        url: https://www.gstatic.com/generate_204
-        icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
-        use:
-          - tag
-    rule-providers:
-      - agi
-      - ssh
-    rules:
-      - RULE-SET,agi,AGI
-      - RULE-SET,ssh,AGI
-
+proxy-providers:
+  tag:
+    type: file
+    path: C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
 
 proxy-groups:
   - name: AGI
     type: fallback
     interval: 300
     url: https://www.gstatic.com/generate_204
+    use:
+      - tag
     filter: (美国|韩国|日本|新加坡)
     exclude-filter: 3[xX]|5[xX]|10[xX]|家宽|星链|住宅|游戏
-    include-all: true
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 
   - name: Auto

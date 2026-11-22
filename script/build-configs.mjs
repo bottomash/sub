@@ -7,11 +7,6 @@ import YAML from "yaml";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const policyPath = path.join(rootDir, "sparkle", "policy.yml");
 const renamePath = path.join(rootDir, "sparkle", "rename.js");
-const sparklePolicyOutputPath = path.join(
-  rootDir,
-  "sparkle",
-  "policy-override.js",
-);
 const surgeOutputPath = path.join(rootDir, "surge", "policy.conf");
 const prefOutputPath = path.join(rootDir, "pref.yml");
 
@@ -72,7 +67,10 @@ function buildSurgeProxyGroup(group, index) {
   if (group.proxies !== undefined) {
     parts.push(...requireArray(group.proxies, `${name}.proxies`));
   }
-  if (group["include-all"] === true) {
+  if (group["include-all"] === true || group.use !== undefined) {
+    if (group.use !== undefined) {
+      requireArray(group.use, `${name}.use`);
+    }
     parts.push("include-all-proxies=true");
   }
 
@@ -221,122 +219,6 @@ function buildSubconverterRulesets(rules) {
   });
 }
 
-function buildSparklePolicyOverride(policy) {
-  const clientOverrides = requireObject(
-    policy["x-client-overrides"],
-    "x-client-overrides",
-  );
-  const sparkle = requireObject(
-    clientOverrides.sparkle,
-    "x-client-overrides.sparkle",
-  );
-  const allRuleProviders = requireObject(
-    policy["rule-providers"],
-    "rule-providers",
-  );
-  const ruleProviderNames = requireArray(
-    sparkle["rule-providers"],
-    "x-client-overrides.sparkle.rule-providers",
-  );
-  const ruleProviders = Object.fromEntries(
-    ruleProviderNames.map((name) => {
-      if (typeof name !== "string" || !name) {
-        throw new Error("Sparkle 规则提供者名称必须是非空字符串");
-      }
-      return [
-        name,
-        requireObject(allRuleProviders[name], `rule-provider ${name}`),
-      ];
-    }),
-  );
-  const groups = requireArray(
-    sparkle["proxy-groups"],
-    "x-client-overrides.sparkle.proxy-groups",
-  );
-  groups.forEach((group, index) => {
-    requireObject(group, `x-client-overrides.sparkle.proxy-groups[${index}]`);
-    if (typeof group.name !== "string" || !group.name) {
-      throw new Error(`Sparkle 策略组[${index}]缺少有效名称`);
-    }
-  });
-
-  const override = {
-    "proxy-providers": requireObject(
-      sparkle["proxy-providers"],
-      "x-client-overrides.sparkle.proxy-providers",
-    ),
-    "proxy-groups": groups,
-    "rule-providers": ruleProviders,
-    rules: requireArray(sparkle.rules, "x-client-overrides.sparkle.rules"),
-  };
-
-  return [
-    "// 此文件由 script/build-configs.mjs 根据 sparkle/policy.yml 自动生成，请勿手动修改。",
-    "// 保留原配置，并增量添加或更新 Sparkle / Mihomo 专用策略。",
-    "",
-    `const override = ${JSON.stringify(override, null, 2)};`,
-    "",
-    "function isObject(value) {",
-    '  return value !== null && typeof value === "object" && !Array.isArray(value);',
-    "}",
-    "",
-    "function ruleKey(rule) {",
-    '  if (typeof rule !== "string") {',
-    "    return rule;",
-    "  }",
-    '  const parts = rule.split(",");',
-    '  return parts[0] === "RULE-SET" && parts[1]',
-    '    ? `RULE-SET,${parts[1]},`',
-    "    : rule;",
-    "}",
-    "",
-    "function main(config) {",
-    "  if (!isObject(config)) {",
-    "    config = {};",
-    "  }",
-    "",
-    '  const proxyProviders = isObject(config["proxy-providers"])',
-    '    ? config["proxy-providers"]',
-    "    : {};",
-    '  config["proxy-providers"] = {',
-    "    ...proxyProviders,",
-    '    ...override["proxy-providers"],',
-    "  };",
-    "",
-    '  const originalGroups = Array.isArray(config["proxy-groups"])',
-    '    ? config["proxy-groups"]',
-    "    : [];",
-    "  const overrideGroupNames = new Set(",
-    '    override["proxy-groups"].map((group) => group.name),',
-    "  );",
-    '  config["proxy-groups"] = [',
-    '    ...override["proxy-groups"],',
-    "    ...originalGroups.filter(",
-    "      (group) => !isObject(group) || !overrideGroupNames.has(group.name),",
-    "    ),",
-    "  ];",
-    "",
-    '  const ruleProviders = isObject(config["rule-providers"])',
-    '    ? config["rule-providers"]',
-    "    : {};",
-    '  config["rule-providers"] = {',
-    "    ...ruleProviders,",
-    '    ...override["rule-providers"],',
-    "  };",
-    "",
-    "  const originalRules = Array.isArray(config.rules) ? config.rules : [];",
-    "  const overrideRuleKeys = new Set(override.rules.map(ruleKey));",
-    "  config.rules = [",
-    "    ...override.rules,",
-    "    ...originalRules.filter((rule) => !overrideRuleKeys.has(ruleKey(rule))),",
-    "  ];",
-    "",
-    "  return config;",
-    "}",
-    "",
-  ].join("\n");
-}
-
 function buildSurgePolicy(policy) {
   const groups = requireArray(policy["proxy-groups"], "proxy-groups");
   const providers = requireObject(policy["rule-providers"], "rule-providers");
@@ -421,7 +303,6 @@ async function loadSources() {
 export async function generateArtifacts() {
   const { policy, renameSource } = await loadSources();
   return {
-    [sparklePolicyOutputPath]: buildSparklePolicyOverride(policy),
     [surgeOutputPath]: buildSurgePolicy(policy),
     [prefOutputPath]: buildPref(policy, renameSource),
   };

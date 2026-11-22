@@ -10,7 +10,6 @@ on:
       - script/build-configs.mjs
       - script/package.json
       - script/package-lock.json
-      - script/*.test.mjs
       - .github/workflows/generate-configs.yml
   workflow_dispatch:
 
@@ -44,18 +43,14 @@ jobs:
         run: node build-configs.mjs
         working-directory: script
 
-      - name: Test generated Sparkle override
-        run: node --test policy-override.test.mjs
-        working-directory: script
-
       - name: Commit generated configurations
         run: |
-          if [[ -z "$(git status --porcelain -- sparkle/policy-override.js surge/policy.conf pref.yml)" ]]; then
+          if [[ -z "$(git status --porcelain -- surge/policy.conf pref.yml)" ]]; then
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sparkle/policy-override.js surge/policy.conf pref.yml
+          git add surge/policy.conf pref.yml
           git commit -m "chore: generate client configurations"
           git push
