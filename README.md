@@ -92,9 +92,15 @@ http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/policy.yml
 ```
 
-配置中的 `tag` provider 通过相对路径 `./tag.yml` 读取 Sparkle 工作目录下的 `tag.yml`，从该文件顶层的 `proxies` 获取节点。`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
+配置中的 `tag` provider 通过绝对路径读取 Sparkle 的 TAG profile（`C:\Users\haoran\AppData\Roaming\sparkle\profiles\19f700216e4.yaml`），从该文件顶层的 `proxies` 获取节点。`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
 
-provider 路径必须是相对路径或位于工作目录内：Sparkle 以 `%APPDATA%\sparkle\work` 作为 mihomo 的 home 目录，`profiles` 目录不在允许范围内，直接写 `profiles/xxx.yaml` 会启动失败并报 `path is not subpath of home directory or SAFE_PATHS`。因此节点文件必须放在 `%APPDATA%\sparkle\work\tag.yml`：可以复制 profile 文件的 `proxies` 列表过去，也可以在开启开发者模式后建立指向 profile 文件的符号链接。
+mihomo 默认只允许 provider 读取 home 目录（Sparkle 为 `%APPDATA%\sparkle\work`），直接写 `profiles/xxx.yaml` 会启动失败并报 `path is not subpath of home directory or SAFE_PATHS`。需要在启动 Sparkle 前设置环境变量 `SAFE_PATHS` 指向 `profiles` 目录，重启 Sparkle 后生效：
+
+```powershell
+setx SAFE_PATHS "C:\Users\haoran\AppData\Roaming\sparkle\profiles"
+```
+
+多个路径用逗号分隔。这样订阅更新后 provider 直接读取最新 profile，无需额外复制。
 
 `pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
 
