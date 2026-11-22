@@ -92,7 +92,7 @@ http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/policy.yml
 ```
 
-配置中的 `tag` provider 通过绝对路径读取 Sparkle 的 TAG profile（`C:\Users\haoran\AppData\Roaming\sparkle\profiles\19f700216e4.yaml`），从该文件顶层的 `proxies` 获取节点。`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
+配置中的 `tag` provider 通过绝对路径读取 Sparkle 的 TAG profile（`C:\Users\haoran\AppData\Roaming\sparkle\profiles\1a2035bc54f.yaml`，即 TAGMeta 订阅），从该文件顶层的 `proxies` 获取节点。`AGI` 策略组通过 `use: [tag]` 使用这些节点，SSH 分流直接复用 `AGI`。
 
 mihomo 默认只允许 provider 读取 home 目录（Sparkle 为 `%APPDATA%\sparkle\work`），直接写 `profiles/xxx.yaml` 会启动失败并报 `path is not subpath of home directory or SAFE_PATHS`。需要在启动 Sparkle 前设置环境变量 `SAFE_PATHS` 指向 `profiles` 目录，重启 Sparkle 后生效：
 

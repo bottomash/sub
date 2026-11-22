@@ -24,7 +24,7 @@ dns:
 proxy-providers:
   tag:
     type: file
-    path: C:\Users\haoran\AppData\Roaming\sparkle\profiles\19f700216e4.yaml
+    path: C:\Users\haoran\AppData\Roaming\sparkle\profiles\1a2035bc54f.yaml
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
