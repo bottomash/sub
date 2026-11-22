@@ -45,3 +45,7 @@ function applyNodeOverride(config) {
 
   return config;
 }
+
+function main(config) {
+  return applyNodeOverride(config);
+}

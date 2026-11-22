@@ -35,10 +35,10 @@
 
 ## 工作原理
 
-1. 在 `sparkle/policy.yml` 中直接维护 Sparkle/Mihomo 的基础配置、策略组、规则提供者和规则顺序。`AGI` 通过 `include-all` 使用当前订阅的全部节点，不依赖任何本地文件。
-2. 在 `sparkle/rename.js` 的 `renameNode` 函数中维护节点名称替换规则。生成脚本会解析其中的 `replace` 规则并写入 subconverter 偏好配置；不会直接执行该文件。
+1. 在 `sparkle/policy.yml` 中直接维护 Sparkle/Mihomo 的基础配置、`tag` 节点提供者、策略组、规则提供者和规则顺序。`AGI` 只通过 `use: [tag]` 使用 TAG profile 的节点。
+2. 在 `sparkle/rename.js` 中维护节点重命名与配置裁剪：`main(config)` 是 Sparkle 脚本覆盖的入口，Sparkle 执行 `main(config)` 并用返回值替换配置；`renameNode` 中的 `replace` 规则由生成脚本解析后写入 subconverter 偏好配置，脚本本身不会被生成脚本执行。脚本会先删掉 profile 自带的 `proxy-groups`/`rule-providers`/`rules`，再由后面的 YAML 覆盖写入，因此覆盖列表中 `rename.js` 必须排在 `policy.yml` 之前。
 3. 运行 `script/build-configs.mjs`，生成：
-   - `surge/policy.conf`：将共享策略组、规则提供者和规则转换为 Surge 格式的托管配置。`use` / `include-all` 的节点来源在 Surge 中转换为 `include-all-proxies`；名称为 `Global`（不区分大小写）的策略组不会写入 Surge 产物，并额外加入 `DOMAIN-SUFFIX,ad.12306.cn,REJECT`。
+   - `surge/policy.conf`：将共享策略组、规则提供者和规则转换为 Surge 格式的托管配置。`use` 的节点来源在 Surge 中转换为 `include-all-proxies`；名称为 `Global`（不区分大小写）的策略组不会写入 Surge 产物，并额外加入 `DOMAIN-SUFFIX,ad.12306.cn,REJECT`。
    - `pref.yml`：subconverter 的偏好配置，包含重命名规则、规则集映射、自定义策略组、`/clash` 别名以及关闭缓存的设置。
 4. `rule/*.txt` 独立维护，每行是一条 classical 规则；Sparkle、Surge 和 subconverter 可通过规则提供者或生成后的 URL 共用这些规则。
 
@@ -46,7 +46,7 @@
 
 | 策略组 | 类型 | 实际行为 |
 | --- | --- | --- |
-| `AGI` | fallback | 使用当前配置的全部节点 |
+| `AGI` | fallback | 只使用 `tag` provider（Sparkle 的 TAG profile）的全部节点；Surge/subconverter 使用当前配置的全部节点 |
 | `Auto` | fallback | 优先使用 `PROXY`，再从日本、香港、新加坡、韩国、土耳其节点中自动选择 |
 | `PROXY` | select | 手动选择日本、香港、新加坡、韩国、土耳其节点，排除台湾及特定节点 |
 | `OneDrive` | select | 在 `DIRECT` 和 `Auto` 之间选择，用于 OneDrive 分流 |
@@ -92,9 +92,22 @@ http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/policy.yml
 ```
 
-配置中的 `AGI` 策略组通过 `include-all: true` 使用 Sparkle 当前订阅（profile）的全部节点，SSH 分流直接复用 `AGI`。因此 `policy.yml` 不含 `proxy-providers`，既不读取 Sparkle 的 `profiles/*.yaml`，也不依赖 `SAFE_PATHS` 环境变量：mihomo 只允许 provider 读取 home 目录（Sparkle 为 `%APPDATA%\sparkle\work`），把 provider 指向 `profiles/xxx.yaml` 会在启动时报 `path is not subpath of home directory or SAFE_PATHS`，且 profile 文件名会随订阅重新导入而变化。
+`AGI` 策略组通过 `use: [tag]` 只使用 TAG profile 的节点，SSH 分流直接复用 `AGI`。`tag` provider 是 `type: file`，通过绝对路径读取 Sparkle 的 TAG profile（`C:\Users\haoran\AppData\Roaming\sparkle\profiles\1a2035bc54f.yaml`，即 TAGMeta 订阅）；订阅重新导入后文件名会变化，需要同步修改这里的路径。
 
-需要额外节点时请在订阅侧维护；如需在 Sparkle 中叠加其他配置，用覆盖（override）方式应用本文件即可。
+mihomo 默认只允许 provider 读取工作目录（Sparkle 为 `%APPDATA%\sparkle\work`），直接指向 `profiles/xxx.yaml` 会在配置检查阶段失败并报错：
+
+```text
+Profile Check Failed:
+parse proxy provider tag error: path is not subpath of home directory or SAFE_PATHS: ...
+```
+
+在 Sparkle 的 设置 → 内核 → 环境变量 → 可信路径 中添加该目录并保存（Sparkle 会自动重启内核）：
+
+```text
+C:\Users\haoran\AppData\Roaming\sparkle\profiles
+```
+
+该项对应 `%APPDATA%\sparkle\config.yaml` 的 `safePaths`。Sparkle 启动内核时只把 `safePaths` 拼接成 `SAFE_PATHS` 写入内核环境，所以用 `setx SAFE_PATHS` 设置系统环境变量对内核无效。这样订阅更新后 provider 直接读取最新 profile，无需额外复制。
 
 `pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
 

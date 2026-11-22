@@ -21,12 +21,22 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
 
+proxy-providers:
+  tag:
+    type: file
+    path: C:\Users\haoran\AppData\Roaming\sparkle\profiles\1a2035bc54f.yaml
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+
 proxy-groups:
   - name: AGI
     type: fallback
     interval: 300
     url: https://www.gstatic.com/generate_204
-    include-all: true
+    use:
+      - tag
     icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
 
   - name: Auto
