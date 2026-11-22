@@ -5,7 +5,7 @@ const override = {
   "proxy-providers": {
     "tag": {
       "type": "file",
-      "path": "C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml",
+      "path": "C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml",
       "health-check": {
         "enable": true,
         "url": "https://www.gstatic.com/generate_204",
@@ -20,16 +20,6 @@ const override = {
       "interval": 300,
       "url": "https://www.gstatic.com/generate_204",
       "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png",
-      "use": [
-        "tag"
-      ]
-    },
-    {
-      "name": "SSH",
-      "type": "fallback",
-      "interval": 300,
-      "url": "https://www.gstatic.com/generate_204",
-      "icon": "https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/SSH.png",
       "use": [
         "tag"
       ]
@@ -53,7 +43,7 @@ const override = {
   },
   "rules": [
     "RULE-SET,agi,AGI",
-    "RULE-SET,ssh,SSH"
+    "RULE-SET,ssh,AGI"
   ]
 };
 

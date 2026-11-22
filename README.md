@@ -40,7 +40,7 @@
 1. 在 `sparkle/policy.yml` 中维护共享的基础配置、策略组、规则提供者和规则顺序；`x-client-overrides.sparkle` 维护 Sparkle/Mihomo 专用的增量策略。规则提供者统一定义在 `rule-providers`，避免在客户端覆写中重复维护 URL。
 2. 在 `sparkle/rename.js` 的 `renameNode` 函数中维护节点名称替换规则。生成脚本会解析其中的 `replace` 规则并写入 subconverter 偏好配置；不会直接执行该文件。
 3. 运行 `script/build-configs.mjs`，生成：
-   - `sparkle/policy-override.js`：保留订阅原配置，增量添加或更新本地 `tag` 节点提供者、`AGI`/`SSH` 策略组、规则提供者和规则，并在重复执行时清理同名旧配置。
+   - `sparkle/policy-override.js`：保留订阅原配置，增量添加或更新本地 `tag` 节点提供者、`AGI` 策略组、AI/SSH 规则提供者和规则，并在重复执行时清理同名旧配置。
    - `surge/policy.conf`：将共享策略组、规则提供者和规则转换为 Surge 格式的托管配置。名称为 `Global`（不区分大小写）的策略组不会写入 Surge 产物，并额外加入 `DOMAIN-SUFFIX,ad.12306.cn,REJECT`。
    - `pref.yml`：subconverter 的偏好配置，包含重命名规则、规则集映射、自定义策略组、`/clash` 别名以及关闭缓存的设置。
 4. `rule/*.txt` 独立维护，每行是一条 classical 规则；Sparkle、Surge 和 subconverter 可通过规则提供者或生成后的 URL 共用这些规则。
@@ -55,7 +55,7 @@
 | `OneDrive` | select | 在 `DIRECT` 和 `Auto` 之间选择，用于 OneDrive 分流 |
 | `GLOBAL` | select | 在 `DIRECT` 和 `Auto` 之间选择；保留在 Clash/Sparkle 和 subconverter 配置中，Surge 产物按生成规则跳过 |
 
-共享策略的规则顺序为：AI → OneDrive → 直连规则 → 代理规则 → 局域网/中国大陆直连 → 其余流量使用 `Auto`。Sparkle 增量覆写会将 AI 和 SSH 规则放在订阅原规则之前。
+共享策略的规则顺序为：AI → SSH → OneDrive → 直连规则 → 代理规则 → 局域网/中国大陆直连 → 其余流量使用 `Auto`。SSH 分流复用 `AGI` 策略组；Sparkle 增量覆写会将 AI 和 SSH 规则放在订阅原规则之前。
 
 ## 本地生成与校验
 
@@ -95,7 +95,7 @@ http://localhost:25500/sub?target=clash&url=<机场订阅地址>&new_name=true
 https://raw.zhai.dev/bottomash/sub/latest/sparkle/policy-override.js
 ```
 
-该覆写会添加或更新 `tag` 节点提供者、`AGI`/`SSH` 策略组、对应规则提供者和规则。`tag.yml` 应放在 `C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml`。策略定义统一维护在 `sparkle/policy.yml` 的 `x-client-overrides.sparkle` 中，不要直接修改生成的覆写文件。
+该覆写会添加或更新 `tag` 节点提供者、`AGI` 策略组以及 AI/SSH 规则提供者和规则；SSH 分流直接使用 `AGI` 策略组。`tag` 提供者读取 `C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml` 中的节点。策略定义统一维护在 `sparkle/policy.yml` 的 `x-client-overrides.sparkle` 中，不要直接修改生成的覆写文件。
 
 `pref.yml` 是 subconverter 的配置文件，不是 Clash 客户端直接导入的配置；使用本仓库构建的 Docker 镜像时，它会随仓库文件一起放入 `/base/`。
 

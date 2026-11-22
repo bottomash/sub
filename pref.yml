@@ -39,6 +39,8 @@ rulesets:
   rulesets:
     - rule: RULE-SET,agi
       group: AGI
+    - rule: RULE-SET,ssh
+      group: AGI
     - rule: RULE-SET,onedrive
       group: OneDrive
     - rule: RULE-SET,direct

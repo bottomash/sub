@@ -26,7 +26,7 @@ x-client-overrides:
     proxy-providers:
       tag:
         type: file
-        path: C:/Users/haoran/AppData/Roaming/sparkle/work/tag.yml
+        path: C:/Users/haoran/AppData/Roaming/sparkle/profiles/19f700216e4.yaml
         health-check:
           enable: true
           url: https://www.gstatic.com/generate_204
@@ -39,19 +39,12 @@ x-client-overrides:
         icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/AI.png
         use:
           - tag
-      - name: SSH
-        type: fallback
-        interval: 300
-        url: https://www.gstatic.com/generate_204
-        icon: https://raw.zhai.dev/Koolson/Qure/master/IconSet/Color/SSH.png
-        use:
-          - tag
     rule-providers:
       - agi
       - ssh
     rules:
       - RULE-SET,agi,AGI
-      - RULE-SET,ssh,SSH
+      - RULE-SET,ssh,AGI
 
 
 proxy-groups:
@@ -137,6 +130,7 @@ rule-providers:
 
 rules:
   - RULE-SET,agi,AGI
+  - RULE-SET,ssh,AGI
   - RULE-SET,onedrive,OneDrive
   - RULE-SET,direct,DIRECT
   - RULE-SET,proxy,Auto
